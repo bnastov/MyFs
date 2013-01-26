@@ -1,5 +1,7 @@
 package fr.um2.myfs;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import com.activeandroid.ActiveAndroid;
 import fr.um2.apicaller.OwerUser;
 import fr.um2.apicaller.Position;
 import fr.um2.apicaller.ResponseApi;
+import fr.um2.database.GeoLocationDBAdapteur;
 import fr.um2.entities.GeoLocation;
 import fr.um2.search.SearchActivity;
 import fr.um2.service.GeoSendService;
@@ -50,7 +53,8 @@ public class ConnectedActivity extends FragmentActivity implements
 		StartGeoSender();
 		ActiveAndroid.initialize(this);
 
-		OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
+		//OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
+		OwerUser.loginUser("rabah@hotmail.com", "rabah");
 		OwerUser.getUser().getFriendsWeb();
 
 		initilizeFriendList();
@@ -125,10 +129,17 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * one of the sections/tabs/pages.
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
+		public Fragment profile;
+		public Fragment listFriends;
+		public Fragment map;
+		
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
+			profile = getItem(0);
+			listFriends = getItem(1);
+			map = getItem(2);
 		}
+		
 
 		@Override
 		public Fragment getItem(int position) {
@@ -330,22 +341,24 @@ public class ConnectedActivity extends FragmentActivity implements
 				GeoLocation f = new GeoLocation(selected.getPublictoken(), repo
 						.getResults().getLat(), repo.getResults().getLon(),
 						repo.getResults().getTime());
+				//mSectionsPagerAdapter.map
+//				Toast.makeText(
+//						getApplicationContext(),
+//						"Info Friend \n Pseudo :" + selected.getPseudo()
+//								+ " \n First Name : " + selected.getFirstName()
+//								+ " \n Last Name :" + selected.getLastName() + 
+//								f.toString(), 
+//						Toast.LENGTH_LONG).show();
 
-				//ActiveAndroid.getDatabase().
-
-				//Log.e("My", (f2 == null) ? "Null" : f2.toString());
+				GeoLocationDBAdapteur base = new GeoLocationDBAdapteur(getApplicationContext());
+				base.open();
+				base.insertGeoLocation(f);
+				base.close();
+				
 			} else {
 				Log.e("My", "ERREUR Dans la requete de recuperation");
 			}
-
-			GeoLocation f2 = GeoLocation.getRandom();
-
-			Toast.makeText(
-					getApplicationContext(),
-					"Info Friend \n Pseudo :" + selected.getPseudo()
-							+ " \n First Name : " + selected.getFirstName()
-							+ " \n Last Name :" + selected.getLastName()
-							+ f2.toString(), Toast.LENGTH_LONG).show();
+			
 			break;
 		case 3:
 			//Simulation d'appel
@@ -353,7 +366,7 @@ public class ConnectedActivity extends FragmentActivity implements
 			Intent intent = new Intent(Intent.ACTION_DIAL, uri);
 			startActivity(intent);
 		
-		//case 4:
+		case 4:
 			//Simulation d'envoie de sms
 			//cas 1 :
 			/*
@@ -361,10 +374,10 @@ public class ConnectedActivity extends FragmentActivity implements
 			smsManager.sendTextMessage("0612345678", null, "sms message", null, null);
 			*/
 			//cas 2 :
-//			Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-//			sendIntent.putExtra("sms_body", "default content"); 
-//			sendIntent.setType("vnd.android-dir/mms-sms");
-//			startActivity(sendIntent);
+			Uri sms_uri = Uri.parse("smsto:+33612345678"); 
+	        Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri); 
+	        sms_intent.putExtra("sms_body", "Good Morning ! how r U ?"); 
+	        startActivity(sms_intent); 
 			
 		default:
 			break;

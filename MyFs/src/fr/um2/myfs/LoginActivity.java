@@ -23,11 +23,6 @@ import android.widget.TextView;
  */
 public class LoginActivity extends Activity {
 
-	/**
-	 * The default email to populate the email field with.
-	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
 	// UI references.
 	private EditText mEmailView;
 	private EditText mPasswordView;
@@ -72,8 +67,6 @@ public class LoginActivity extends Activity {
 	public void initView(){
 
 		mEmailView 	= (EditText) findViewById(R.id.email);
-		mEmailView.setText(getIntent().getStringExtra(EXTRA_EMAIL));
-
 		mPasswordView           = (EditText) findViewById(R.id.password);		
 		mLoginFormView          = findViewById(R.id.login_form);
 		mLoginStatusView        = findViewById(R.id.login_status);

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import fr.um2.apicaller.OwerUser;
 import fr.um2.entities.GeoLocation;
 
 public class GeoLocationDBAdapteur {
@@ -19,17 +20,20 @@ public class GeoLocationDBAdapteur {
 	private static final String COLONNE_ID = "id";
 	public static final int COLONNE_ID_ID = 0;
 	
+	private static final String COLONNE_PRIVATE_TOKEN = "private_token";
+	public static final int COLONNE_PRIVATE_TOEKN_ID = 1;
+	
 	private static final String COLONNE_PUBLIC_TOKEN = "public_token";
-	public static final int COLONNE_PUBLIC_TOEKN_ID = 1;
+	public static final int COLONNE_PUBLIC_TOEKN_ID = 2;
 	
 	private static final String COLONNE_LATITUDE = "latitude";
-	public static final int COLONNE_LATITUDE_ID = 2;
+	public static final int COLONNE_LATITUDE_ID = 3;
 	
 	private static final String COLONNE_LONGITUDE = "longitude";	
-	public static final int COLONNE_LONGITUDE_ID = 3;
+	public static final int COLONNE_LONGITUDE_ID = 4;
 	
 	private static final String COLONNE_TIME = "time";
-	public static final int COLONNE_TIME_ID = 4;
+	public static final int COLONNE_TIME_ID = 5;
 	
 	/**
 	 * The creation database query
@@ -37,6 +41,7 @@ public class GeoLocationDBAdapteur {
 	private static final String REQUETE_CREATION_BD = 
 			"create table " + TABLE_GEO_LOCATION + " (" + 
 				COLONNE_ID 				+ " integer primary key autoincrement, " + 
+				COLONNE_PRIVATE_TOKEN 	+ " text not null, " + 
 				COLONNE_PUBLIC_TOKEN 	+ " text not null, " + 
 				COLONNE_LATITUDE 		+ " double not null, " +
 				COLONNE_LONGITUDE 		+ " double not null," +
@@ -70,6 +75,7 @@ public class GeoLocationDBAdapteur {
 	public long insertGeoLocation(GeoLocation geo) {
 		ContentValues valeurs = new ContentValues();
 		
+		valeurs.put(COLONNE_PRIVATE_TOKEN, 	OwerUser.getUser().getToken());
 		valeurs.put(COLONNE_PUBLIC_TOKEN, 	geo.getPublictoken());
 		valeurs.put(COLONNE_LATITUDE, 		geo.getLat());
 		valeurs.put(COLONNE_LONGITUDE, 		geo.getLon());
@@ -85,8 +91,11 @@ public class GeoLocationDBAdapteur {
 	 */
 	public ArrayList<GeoLocation> getGeo(String public_token) {
 		Cursor c = maBaseDonnees.query(TABLE_GEO_LOCATION, new String[]{
-				COLONNE_ID, COLONNE_PUBLIC_TOKEN, COLONNE_LATITUDE, COLONNE_LONGITUDE, COLONNE_TIME}, null, null, null, 
-				COLONNE_PUBLIC_TOKEN + " LIKE " + public_token, null);
+				COLONNE_ID, COLONNE_PRIVATE_TOKEN, COLONNE_PUBLIC_TOKEN, COLONNE_LATITUDE, COLONNE_LONGITUDE, COLONNE_TIME}, 
+				COLONNE_PUBLIC_TOKEN + " LIKE \"" + public_token + "\"" +
+				" AND " +
+				COLONNE_PRIVATE_TOKEN + " LIKE \"" + OwerUser.getUser().getToken() + "\"",
+				null, null, null, null);
 		return cursorToGeoLocation(c);
 	}
 	
