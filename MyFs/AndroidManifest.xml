@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.um2.myfs"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <meta-data
+        android:name="AA_DB_NAME"
+        android:value="database.db" />
+    <meta-data
+        android:name="AA_DB_VERSION"
+        android:value="5" />
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <uses-library android:name="com.google.android.maps" />
+
+        <activity
+            android:name="fr.um2.myfs.LoginActivity"
+            android:label="@string/title_activity_login" >
+            
+            <!--intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter-->
+        </activity>
+        
+        <activity
+            android:name="fr.um2.myfs.ConnectedActivity"
+            android:label="@string/title_activity_connected" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="fr.um2.search.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName="android.app.ListActivity" >
+        </activity>
+        <activity
+            android:name="fr.um2.search.ResultActivity"
+            android:label="@string/title_activity_result" >
+        </activity>
+        <activity
+            android:name="fr.um2.myfs.GoogleMapActivity"
+            android:label="@string/title_activity_map" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="fr.um2.service.GeoSendService"
+            android:enabled="true" >
+        </service>
+
+    </application>
+
+</manifest>

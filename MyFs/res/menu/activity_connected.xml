@@ -1,0 +1,64 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_option_search_friends"
+        android:title="@string/menu_option_search_friends"/>
+    <item 
+        android:id="@+id/menu_option_refresh_friends" 
+        android:title="@string/menu_option_refresh_friends"/>
+    <item
+        android:id="@+id/menu_opetion_send_sms"
+        android:title="@string/menu_option_send_sms">
+        
+        <menu>
+            <item 
+                android:id="@+id/sub_menu_option_by_city"
+                android:title="By City"/>
+            <item 
+                android:id="@+id/sub_menu_option_by_age"
+                android:title="By Age"/>
+            <item 
+                android:id="@+id/sub_menu_option_by_costom"
+                android:title="Costom"/>
+            
+        </menu>
+    </item>
+    <item 
+        android:id="@+id/menu_option_sort"
+        android:title="@string/menu_option_sort">
+	    <menu>
+	        <item
+	            android:id="@+id/sub_menu_option_sort_by_name"
+	            android:title="@string/sub_menu_option_sort_by_name">
+	        	<menu>
+	        	    <item 
+	        	        android:id="@+id/sub_sub_menu_option_sort_by_first_name"
+	        	        android:title="@string/sub_sub_menu_option_sort_by_first_name"/>
+	        	    <item 
+	        	        android:id="@+id/sub_sub_menu_option_sort_by_last_name"
+	        	        android:title="@string/sub_sub_menu_option_sort_by_last_name"/>
+	        	</menu>
+	        </item>
+	        <item
+	            android:id = "@+id/sub_menu_option_sort_by_age"
+	            android:title="@string/sub_menu_option_sort_by_age">
+	        	<menu>
+	        	    <item 
+	        	        android:id="@+id/sub_sub_menu_option_sort_by_age_increasing"
+	        	        android:title="@string/sub_sub_menu_option_sort_by_age_increasing"/>
+	        	    <item 
+	        	        android:id="@+id/sub_sub_menu_option_sort_by_age_decreasing"
+	        	        android:title="@string/sub_sub_menu_option_sort_by_age_decreasing"/>
+	        	</menu>
+	        </item>
+	        <item
+	            android:id = "@+id/sub_menu_option_sort_by_city"
+	            android:title="@string/sub_menu_option_sort_by_city">
+	        </item>
+	        <item
+	            android:id = "@+id/sub_menu_option_sort_by_distance"
+	            android:title="@string/sub_menu_option_sort_by_distance">
+	        </item>
+	    </menu> 
+     </item>
+</menu>
