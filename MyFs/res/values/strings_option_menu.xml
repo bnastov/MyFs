@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="menu_option_update_profile">Update Profile</string>
     <string name="menu_option_search_friends">Search Friends</string>
 	<string name="menu_option_refresh_friends">Refresh Friends</string>
 	<string name="menu_option_send_sms">Send SMS</string>
 	<string name="menu_option_sort">Sort Friends</string>
+	
+	<string name="menu_option_back_to_profile">Back to Profile</string>
 	
 	<string name="sub_menu_option_sort_by_name">Sort by Name</string>
 	<string name="sub_menu_option_sort_by_age">Sort by Age</string>

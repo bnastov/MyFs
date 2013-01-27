@@ -1,29 +1,15 @@
 package fr.um2.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
-import org.apache.http.client.UserTokenHandler;
-
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.DropBoxManager;
-import android.provider.CalendarContract.Colors;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import fr.um2.apicaller.OwerUser;
 import fr.um2.imageloader.ImageLoader;
 import fr.um2.myfs.R;
@@ -84,7 +70,6 @@ public class OwerUserAdapter extends ArrayAdapter<OwerUser> {
         // loader - loader image, will be displayed before getting image
         // image - ImageView
         imgLoader.DisplayImage(image_url, loader, imageFriend);
-
 	}
 
 	public static class OwerUserViewHolder {

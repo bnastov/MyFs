@@ -3,11 +3,17 @@ package fr.um2.search;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import fr.um2.apicaller.OwerUser;
+import fr.um2.myfs.ConnectedActivity;
 import fr.um2.myfs.R;
+import fr.um2.myfs.ConnectedActivity.DummySectionFragment;
 
 public class SearchActivity extends Activity implements OnClickListener {
 
@@ -37,6 +43,26 @@ public class SearchActivity extends Activity implements OnClickListener {
 			this.startActivity(excute);
 			this.finish();
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_search_result, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_option_back_to_profile:
+			Log.i("My", "Back to Profile Menu Clicked");
+			Intent sea = new Intent(this, ConnectedActivity.class);
+			this.startActivity(sea);
+			break;
 
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

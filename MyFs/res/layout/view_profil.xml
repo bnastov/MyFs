@@ -11,11 +11,10 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
+            android:layout_width="30pt"
             android:layout_height="25pt"
             android:layout_weight="0.005"
-            android:contentDescription="@string/profil_image"
-            android:src="@drawable/rabah"
+            android:contentDescription="@string/profil_image_description"
             />
 
         <TextView
@@ -24,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0.12"
-            android:text="@string/test"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
@@ -33,41 +31,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/firstname"
+        android:text="@string/profile_first_name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/FirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/test" />
+        android:text="@string/profile_first_name_default" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/lastname"
+        android:text="@string/profile_last_name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/LastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/test" />
+        android:text="@string/profile_last_name_default" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15pt"
-        android:text="@string/publictoken"
+        android:text="@string/profile_city"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/tokenPublic"
+        android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/test" />
+        android:text="@string/profile_city_default" />
+    
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15pt"
+        android:text="@string/profile_age"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_age_default" />
 
 </LinearLayout>

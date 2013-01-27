@@ -274,4 +274,19 @@ public class OwerUser {
 		return pseudo + " : " + firstName + " : " + lastName + " : " + token
 				+ " : " + publictoken + "\n" + getFriends();
 	}
+
+	public String getCity() {
+		// TODO Auto-generated method stub
+		return "Montpellier";
+	}
+
+	public String getAge() {
+		// TODO Auto-generated method stub
+		return "18";
+	}
+
+	public String getImageLink() {
+		String url = "http://192.168.17.10:8080/MyFriendWebService/MyFriend/image/photo.png";
+		return url;
+	}
 }
