@@ -57,9 +57,8 @@ public class ConnectedActivity extends FragmentActivity implements
 		ActiveAndroid.initialize(this);
 
 		//OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
-		OwerUser.loginUser("rabah@hotmail.com", "rabah");
+		OwerUser.loginUser("blazo123", "nastov123");
 		listFriends = OwerUser.getUser().getFriendsWeb();
-		
 		
 		initilizeFriendList();
 		setContentView(R.layout.activity_connected);
@@ -114,7 +113,7 @@ public class ConnectedActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_option_update_profile:
-				Toast.makeText(this, "Update", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, OwerUser.getUser().getImagelink(), Toast.LENGTH_LONG).show();
 				break;			
 			case R.id.menu_option_search_friends:
 				Log.i("My", "search Menu Clicked");
@@ -301,10 +300,13 @@ public class ConnectedActivity extends FragmentActivity implements
 			lastName.setText(f.getLastName());
 			city.setText(f.getCity());
 			age.setText(f.getAge());
+		
+			
+			
 			
 			int loader = R.drawable.ic_launcher; 
 	        ImageLoader imgLoader = new ImageLoader(this.getActivity());
-	        imgLoader.DisplayImage(OwerUser.getUser().getImageLink(), loader, imageView);
+	        imgLoader.DisplayImage(OwerUser.getUser().getImagelink(), loader, imageView);
 		}
 
 	}

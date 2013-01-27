@@ -1,0 +1,24 @@
+<resources>
+
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string><string name="prompt_confirm_password" >Confirm Password</string>
+    <string name="prompt_first_name">First Name</string><string name="prompt_last_name">Last Name</string><string name="action_sign_in_register"><b>Sign in</b> or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_cancel">Cancel </string><string name="action_register">Register</string><string name="menu_forgot_password">Recover lost password</string>
+    <string name="login_progress_loading">Loading...</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    
+    
+    
+    
+    <string name="error_incorrect_confirm_password_">The confirm password do not match</string>
+    
+    <string name="error_email_used">Sorry the email you entered is already used</string>
+
+</resources>

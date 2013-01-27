@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_option_update_profile">Update Profile</string>
+    <string name="menu_option_search_friends">Search Friends</string>
+	<string name="menu_option_refresh_friends">Refresh Friends</string>
+	<string name="menu_option_send_sms">Send SMS</string>
+	<string name="menu_option_sort">Sort Friends</string>
+	
+	<string name="menu_option_back_to_profile">Back to Profile</string>
+	
+	<string name="sub_menu_option_sort_by_name">Sort by Name</string>
+	<string name="sub_menu_option_sort_by_age">Sort by Age</string>
+	<string name="sub_menu_option_sort_by_city">Sort by City</string>
+	<string name="sub_menu_option_sort_by_distance">Sort by Distance</string>
+	
+	<string name="sub_sub_menu_option_sort_by_first_name">By First Name</string>
+	<string name="sub_sub_menu_option_sort_by_last_name">By Last Name</string>
+	<string name="sub_sub_menu_option_sort_by_age_increasing">By Age Increasing</string>
+	<string name="sub_sub_menu_option_sort_by_age_decreasing">By Age Decreasing</string>
+	
+
+</resources>

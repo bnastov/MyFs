@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_context_name">Options</string>
+    <string name="menu_context_add_friend">Add Firned</string>
+    <string name="menu_context_delete_friend">Delete Friend</string>
+    <string name="menu_context_info_friend">Info Friend</string>
+    <string name="menu_context_call_friend">Call Friend</string>
+    <string name="menu_context_send_sms">Send SMS</string>
+</resources>

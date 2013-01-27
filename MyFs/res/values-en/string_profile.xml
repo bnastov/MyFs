@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profil_image_description">Profile Image Here</string>
+    <string name="profile_first_name">First Name</string>
+    <string name="profile_first_name_default">Update Your First Name</string>
+    <string name="profile_last_name">Last Name</string>
+    <string name="profile_last_name_default">Update Your Last Name</string>
+    <string name="profile_city">City</string>
+    <string name="profile_city_default">Update Your City</string>
+    <string name="profile_age">Age</string>
+    <string name="profile_age_default">Update Your Age</string>
+</resources>

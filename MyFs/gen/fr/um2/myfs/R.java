@@ -145,6 +145,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int profile_last_name_default=0x7f05000a;
         public static final int prompt_confirm_password=0x7f05002f;
         /**  Strings related to login 
+ Strings related to login 
          */
         public static final int prompt_email=0x7f05002d;
         public static final int prompt_first_name=0x7f050030;
@@ -177,6 +178,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class style {
         /** 
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+
+    
+ API 11 theme customizations can go here. 
+
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    
+ API 14 theme customizations can go here. 
+
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
@@ -190,28 +203,31 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
         
 
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
 
     
- API 11 theme customizations can go here. 
 
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+
+
+        
          */
         public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
+ Application theme. 
+ All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
-        public static final int ButtonBar=0x7f060004;
-        public static final int ButtonBarButton=0x7f060003;
-        public static final int FullscreenActionBarStyle=0x7f060006;
-        public static final int FullscreenTheme=0x7f060005;
-        public static final int LoginFormContainer=0x7f060002;
+        public static final int AppTheme=0x7f060004;
+        public static final int ButtonBar=0x7f060006;
+        public static final int ButtonBarButton=0x7f060005;
+        public static final int FullscreenActionBarStyle=0x7f060001;
+        public static final int FullscreenTheme=0x7f060002;
+        public static final int LoginFormContainer=0x7f060003;
     }
     public static final class styleable {
         /** 

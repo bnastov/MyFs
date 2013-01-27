@@ -39,7 +39,9 @@ public class OwerUserAdapter extends ArrayAdapter<OwerUser> {
 			userNumber 	= (TextView) convertView.findViewById(R.id.ad_telephone);
 			userImage 	= (ImageView) convertView.findViewById(R.id.ad_image);
 			
-			String image_url = "http://192.168.1.10:8080/MyFriendWebService/MyFriend/image/phto.png";
+			
+			
+			String image_url = planet.getImagelink();
 			
 			initFriendImage( userImage, image_url );
 
@@ -52,6 +54,8 @@ public class OwerUserAdapter extends ArrayAdapter<OwerUser> {
 			userImage 	= viewHolder.getUserImage();
 		}
 		userName.setText(planet.getPseudo());
+		if(!planet.getNumber().isEmpty())
+			userNumber.setText(planet.getNumber());
 		userName.setTextColor(Color.WHITE);
 		//userNumber.setTextColor(Color.GRAY);
 		convertView.setBackgroundColor(Color.GRAY);

@@ -9,11 +9,15 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class OwerUser {
-	String firstName;
-	String lastName;
-	String token;
-	String publictoken;
-	String pseudo;
+	String firstName = "";
+	String lastName = "";
+	String token = "";
+	String publictoken = "";
+	String pseudo = "";
+	String age = "";
+	String city = "";
+	String imagelink = "";
+	String number= "";
 	Position geoloc;
 
 	ArrayList<OwerUser> friends = new ArrayList<OwerUser>();
@@ -95,7 +99,7 @@ public class OwerUser {
 			if (response.isOK()) {
 				instance = new OwerUser();
 				Parser.parse(instance, res, "pseudo", "firstName", "lastName",
-						"token", "publictoken");
+						"token", "publictoken", "age", "city", "imagelink", "number");
 
 				response.setResults(instance);
 			} else {
@@ -150,7 +154,7 @@ public class OwerUser {
 				for (int i = 0; i < frds.length(); i++) {
 					OwerUser friend = new OwerUser();
 					Parser.parse(friend, frds.getJSONObject(i), "pseudo",
-							"firstName", "lastName", "publictoken");
+							"firstName", "lastName", "publictoken", "city", "age", "imagelink", "number");
 					friends.add(friend);
 				}
 			}
@@ -158,6 +162,14 @@ public class OwerUser {
 			Log.e(e.getClass().getSimpleName(), e.getLocalizedMessage());
 		}
 
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	/**
@@ -275,18 +287,57 @@ public class OwerUser {
 				+ " : " + publictoken + "\n" + getFriends();
 	}
 
-	public String getCity() {
-		// TODO Auto-generated method stub
-		return "Montpellier";
-	}
-
 	public String getAge() {
-		// TODO Auto-generated method stub
-		return "18";
+		return age;
 	}
 
-	public String getImageLink() {
-		String url = "http://192.168.17.10:8080/MyFriendWebService/MyFriend/image/photo.png";
-		return url;
+	public void setAge(String age) {
+		this.age = age;
 	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getImagelink() {
+		return imagelink;
+	}
+
+	public void setImagelink(String imageLink) {
+		this.imagelink = imageLink;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public void setPublictoken(String publictoken) {
+		this.publictoken = publictoken;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
+	public void setGeoloc(Position geoloc) {
+		this.geoloc = geoloc;
+	}
+
+	public void setFriends(ArrayList<OwerUser> friends) {
+		this.friends = friends;
+	}
+
+
 }
