@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 
-import fr.um2.apicaller.OwerUser;
 import fr.um2.apicaller.Position;
 import fr.um2.apicaller.ResponseApi;
 import fr.um2.database.GeoLocationDBAdapteur;
@@ -38,6 +37,8 @@ import fr.um2.entities.GeoLocation;
 import fr.um2.imageloader.ImageLoader;
 import fr.um2.search.SearchActivity;
 import fr.um2.service.GeoSendService;
+import fr.um2.user.Friend;
+import fr.um2.user.OwerUser;
 import fr.um2.utils.OwerUserAdapter;
 
 public class ConnectedActivity extends FragmentActivity implements
@@ -47,8 +48,8 @@ public class ConnectedActivity extends FragmentActivity implements
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	
-	static ArrayList<OwerUser> listFriends;
-	static ArrayList<OwerUser> listSortedFriends = null;
+	static ArrayList<Friend> listFriends;
+	static ArrayList<Friend> listSortedFriends = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class ConnectedActivity extends FragmentActivity implements
 		ActiveAndroid.initialize(this);
 
 		//OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
-		OwerUser.loginUser("blazo123", "nastov123");
+		OwerUser.loginUser("bibouh123", "rabah123");
 		listFriends = OwerUser.getUser().getFriendsWeb();
 		
 		initilizeFriendList();
@@ -90,7 +91,7 @@ public class ConnectedActivity extends FragmentActivity implements
 					@Override
 					public void onItemClick(AdapterView<?> parent, View item,
 							int position, long id) {
-						OwerUser planet;
+						Friend planet;
 						if(listSortedFriends != null)
 							planet = listSortedFriends.get(position);
 						else
@@ -113,7 +114,8 @@ public class ConnectedActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_option_update_profile:
-				Toast.makeText(this, OwerUser.getUser().getImagelink(), Toast.LENGTH_LONG).show();
+				Intent update = new Intent(this, UpdateProfileActivity.class);
+				this.startActivity(update);
 				break;			
 			case R.id.menu_option_search_friends:
 				Log.i("My", "search Menu Clicked");
@@ -266,15 +268,15 @@ public class ConnectedActivity extends FragmentActivity implements
 			return ret;
 		}
 
-		private void initializeMap(View v3) {
+		/*private void initializeMap(View v3) {
 			TextView v = (TextView) v3.findViewById(R.id.debug);
 			v.setText(GeoLocation.getRandom().toString());
-		}
+		}//*/
 
-		public static void initilizeFriends(ListView v2, Activity a, ArrayList<OwerUser> listFriends) {
+		public static void initilizeFriends(ListView v2, Activity a, ArrayList<Friend> listFriends2) {
 			
 			OwerUserAdapter ad = new OwerUserAdapter(a,
-					R.layout.oweruser_adapter, R.id.ad_pseudo, listFriends);
+					R.layout.oweruser_adapter, R.id.ad_pseudo, listFriends2);
 			ListView listView = v2;
 			listView.setTextFilterEnabled(true);
 
@@ -341,7 +343,7 @@ public class ConnectedActivity extends FragmentActivity implements
 		 */
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
-		OwerUser selected;
+		Friend selected;
 		//Verify if the list is sorted
 		if(ConnectedActivity.listSortedFriends == null)
 			selected = ConnectedActivity.listFriends.get(info.position);
@@ -445,16 +447,16 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * This function sorts the friend list by first name
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
 	 */
-	private ArrayList<OwerUser> sortByFirstName(){
+	private ArrayList<Friend> sortByFirstName(){
 		ArrayList<String> sortedFirstNames = new ArrayList<String>();
-		for (OwerUser owerUser : listFriends) {
+		for (Friend owerUser : listFriends) {
 			sortedFirstNames.add(owerUser.getFirstName());
 		}
 		Collections.sort(sortedFirstNames);
 		
-		ArrayList<OwerUser> result = new ArrayList<OwerUser>();
+		ArrayList<Friend> result = new ArrayList<Friend>();
 		for(String firstName : sortedFirstNames){
-			for(OwerUser friend : listFriends){
+			for(Friend friend : listFriends){
 				if(friend.getFirstName().equals(firstName)){
 					result.add(friend);
 				}
@@ -468,16 +470,16 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * This function sorts the friend list by first name
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
 	 */	
-	private ArrayList<OwerUser> sortByLastName(){
+	private ArrayList<Friend> sortByLastName(){
 		ArrayList<String> sortedLastNames = new ArrayList<String>();
-		for (OwerUser owerUser : listFriends) {
+		for (Friend owerUser : listFriends) {
 			sortedLastNames.add(owerUser.getLastName());
 		}
 		Collections.sort(sortedLastNames);
 		
-		ArrayList<OwerUser> result = new ArrayList<OwerUser>();
+		ArrayList<Friend> result = new ArrayList<Friend>();
 		for(String lastName : sortedLastNames){
-			for(OwerUser friend : listFriends){
+			for(Friend friend : listFriends){
 				if(friend.getFirstName().equals(lastName)){
 					result.add(friend);
 				}
@@ -491,16 +493,16 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * This function sorts the friend list by increasing age 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
 	 */	
-	private ArrayList<OwerUser> sortByAgeIncreasing(){
+	private ArrayList<Friend> sortByAgeIncreasing(){
 		ArrayList<String> sortedAge = new ArrayList<String>();
-		for (OwerUser owerUser : listFriends) {
+		for (Friend owerUser : listFriends) {
 			sortedAge.add(owerUser.getAge());
 		}
 		Collections.sort(sortedAge);
 		
-		ArrayList<OwerUser> result = new ArrayList<OwerUser>();
+		ArrayList<Friend> result = new ArrayList<Friend>();
 		for(String age : sortedAge){
-			for(OwerUser friend : listFriends){
+			for(Friend friend : listFriends){
 				if(friend.getAge().equals(age)){
 					result.add(friend);
 				}
@@ -514,8 +516,8 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * This function sorts the friend list by decreasing age 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
 	 */	
-	private ArrayList<OwerUser> sortByAgeDecreasing(){
-		ArrayList<OwerUser> sortedFriendsByAgeDecreasing = sortByAgeIncreasing();
+	private ArrayList<Friend> sortByAgeDecreasing(){
+		ArrayList<Friend> sortedFriendsByAgeDecreasing = sortByAgeIncreasing();
 		Collections.reverse(sortedFriendsByAgeDecreasing);
 		listSortedFriends = sortedFriendsByAgeDecreasing;
 		return sortedFriendsByAgeDecreasing;
@@ -525,16 +527,16 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * This function sorts the friend list by city
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
 	 */	
-	private ArrayList<OwerUser> sortByCity(){
+	private ArrayList<Friend> sortByCity(){
 		ArrayList<String> sortedCity = new ArrayList<String>();
-		for (OwerUser owerUser : listFriends) {
+		for (Friend owerUser : listFriends) {
 			sortedCity.add(owerUser.getCity());
 		}
 		Collections.sort(sortedCity);
 		
-		ArrayList<OwerUser> result = new ArrayList<OwerUser>();
+		ArrayList<Friend> result = new ArrayList<Friend>();
 		for(String ciity : sortedCity){
-			for(OwerUser friend : listFriends){
+			for(Friend friend : listFriends){
 				if(friend.getCity().equals(ciity)){
 					result.add(friend);
 				}
@@ -548,17 +550,17 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * This function sorts the friend list by first distance
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
 	 */	
-	private ArrayList<OwerUser> sortByDistance(){
+	private ArrayList<Friend> sortByDistance(){
 		ArrayList<Position> sortedDistances = new ArrayList<Position>();
 		
-		for (OwerUser owerUser : listFriends) {
+		for (Friend owerUser : listFriends) {
 			sortedDistances.add(owerUser.getGeoloc());
 		}
 		Collections.sort(sortedDistances);
 		
-		ArrayList<OwerUser> result = new ArrayList<OwerUser>();
+		ArrayList<Friend> result = new ArrayList<Friend>();
 		for(Position position : sortedDistances){
-			for(OwerUser friend : listFriends){
+			for(Friend friend : listFriends){
 				if(friend.getGeoloc().equals(position)){
 					result.add(friend);
 				}

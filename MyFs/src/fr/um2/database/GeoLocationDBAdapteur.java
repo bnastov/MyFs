@@ -8,8 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import fr.um2.apicaller.OwerUser;
 import fr.um2.entities.GeoLocation;
+import fr.um2.user.OwerUser;
 
 public class GeoLocationDBAdapteur {
 	private static final int BASE_VERSION = 1;

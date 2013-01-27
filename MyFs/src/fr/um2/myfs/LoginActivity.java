@@ -1,7 +1,7 @@
 package fr.um2.myfs;
 
-import fr.um2.apicaller.OwerUser;
 import fr.um2.apicaller.ResponseApi;
+import fr.um2.user.OwerUser;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;

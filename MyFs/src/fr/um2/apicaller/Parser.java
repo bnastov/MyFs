@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.um2.user.AbstractUser;
+
 import android.util.Log;
 
 public class Parser {
@@ -29,14 +31,23 @@ public class Parser {
 	public static void parse(Object render, JSONObject obj, String... fields) {
 		try {
 			for (String f : fields) {
-				Log.d("parse : "+render.getClass().getSimpleName(), "On Field : "+f );
+				Log.d("parse : " + render.getClass().getSimpleName(),
+						"On Field : " + f);
 				if (obj.has(f)) {
-					Field f1 = render.getClass().getDeclaredField(f);
+					Field f1;
+					
+					if (render instanceof AbstractUser && !f.equals("token")) {
+						f1 = render.getClass().getSuperclass()
+								.getDeclaredField(f);
+					} else {
+						f1 = render.getClass()
+								.getDeclaredField(f);
+					}
 					f1.setAccessible(true);
 					f1.set(render, obj.getString(f));
 					f1.setAccessible(false);
-				} else{
-					Log.d("WARNNING : "+f, "Does NOT EXIST");
+				} else {
+					Log.d("WARNNING : " + f, "Does NOT EXIST");
 				}
 			}
 		} catch (JSONException e) {
@@ -49,9 +60,10 @@ public class Parser {
 			Log.e(e.getClass().getSimpleName(), e.getLocalizedMessage());
 		}
 	}
-	
+
 	/**
-	 * Parse Postion 
+	 * Parse Postion
+	 * 
 	 * @param render
 	 * @param obj
 	 * @param fields
@@ -63,7 +75,7 @@ public class Parser {
 			render.setTime(obj.getString("time"));
 		} catch (JSONException e) {
 			Log.e(e.getClass().getSimpleName(), e.getLocalizedMessage());
-		} 
+		}
 	}
 
 	public static JSONObject getJsonObjectFromText(String jsonText) {

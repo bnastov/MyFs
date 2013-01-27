@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import fr.um2.apicaller.OwerUser;
 import fr.um2.myfs.ConnectedActivity;
 import fr.um2.myfs.R;
-import fr.um2.myfs.ConnectedActivity.DummySectionFragment;
 
 public class SearchActivity extends Activity implements OnClickListener {
 

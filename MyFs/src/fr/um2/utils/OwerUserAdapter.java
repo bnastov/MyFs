@@ -10,16 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import fr.um2.apicaller.OwerUser;
 import fr.um2.imageloader.ImageLoader;
 import fr.um2.myfs.R;
+import fr.um2.user.Friend;
 
-public class OwerUserAdapter extends ArrayAdapter<OwerUser> {
+public class OwerUserAdapter extends ArrayAdapter<Friend> {
 
 	LayoutInflater inflater;
 
-	public OwerUserAdapter(Context context, int layout,int textView, List<OwerUser> objects) {
-		super(context, layout, textView, objects);
+	public OwerUserAdapter(Context context, int layout,int textView, List<Friend> found) {
+		super(context, layout, textView, found);
 
 		inflater = LayoutInflater.from(context);
 	}
@@ -27,7 +27,7 @@ public class OwerUserAdapter extends ArrayAdapter<OwerUser> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		OwerUser planet = (OwerUser) this.getItem(position);
+		Friend planet = (Friend) this.getItem(position);
 		TextView userName;
 		TextView userNumber;
 		ImageView userImage;

@@ -30,5 +30,6 @@
     <string name="mapKey">05jjNhAydp4lBrD_i4IWqj6nGVkYMVSpHOjdATg</string>
     <string name="local_service_started">Geo Sender Service</string>
     <string name="unknown_phone_number">Unknown Phone number</string>
+    <string name="title_activity_update_profile">UpdateProfileActivity</string>
 
 </resources>

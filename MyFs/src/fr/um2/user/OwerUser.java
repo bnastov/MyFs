@@ -1,4 +1,4 @@
-package fr.um2.apicaller;
+package fr.um2.user;
 
 import java.util.ArrayList;
 
@@ -6,24 +6,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.um2.apicaller.ApiCaller;
+import fr.um2.apicaller.Parser;
+import fr.um2.apicaller.Position;
+import fr.um2.apicaller.ResponseApi;
+
 import android.util.Log;
 
-public class OwerUser {
-	String firstName = "";
-	String lastName = "";
+public class OwerUser extends AbstractUser{
 	String token = "";
-	String publictoken = "";
-	String pseudo = "";
-	String age = "";
-	String city = "";
-	String imagelink = "";
-	String number= "";
-	Position geoloc;
-
-	ArrayList<OwerUser> friends = new ArrayList<OwerUser>();
 	
-	static String urlserver = "http://192.168.17.10:8080/MyFriendWebService/MyFriend/api.php";
 
+	ArrayList<Friend> friends = new ArrayList<Friend>();
+	
+	
 	private OwerUser() {
 	}
 
@@ -119,7 +115,7 @@ public class OwerUser {
 		return instance;
 	}
 
-	public ArrayList<OwerUser> getFriends() {
+	public ArrayList<Friend> getFriends() {
 		return friends;
 	}
 
@@ -130,7 +126,7 @@ public class OwerUser {
 	 * 
 	 * @return
 	 */
-	public ArrayList<OwerUser> getFriendsWeb() {
+	public ArrayList<Friend> getFriendsWeb() {
 		friends.clear();
 		findFriend();
 		return friends;
@@ -152,7 +148,7 @@ public class OwerUser {
 				frds = f.getJSONArray("friends");
 
 				for (int i = 0; i < frds.length(); i++) {
-					OwerUser friend = new OwerUser();
+					Friend friend = new Friend();
 					Parser.parse(friend, frds.getJSONObject(i), "pseudo",
 							"firstName", "lastName", "publictoken", "city", "age", "imagelink", "number");
 					friends.add(friend);
@@ -164,13 +160,7 @@ public class OwerUser {
 
 	}
 
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
+	
 
 	/**
 	 * To update user Position
@@ -186,6 +176,43 @@ public class OwerUser {
 				+ lat + "&lon=" + lon + "&token=" + token);
 		ResponseApi<Void> rep = new ResponseApi<Void>();
 		Parser.parse(rep, res, "what", "type", "info", "details");
+		return rep;
+
+	}
+	
+	
+	/**
+	 * To update user Visibility 
+	 * @param value
+	 * @return
+	 */
+	public ResponseApi<Void> updateVisible(Boolean value) {
+		String res = ApiCaller.callSyncrone(urlserver + "?action=update&visible=" +value.toString() + "&token=" + token);
+		ResponseApi<Void> rep = new ResponseApi<Void>();
+		Parser.parse(rep, res, "what", "type", "info", "details");
+		return rep;
+
+	}
+	
+	
+	/**
+	 * To update user Visibility 
+	 * @param value
+	 * @return
+	 */
+	public ResponseApi<Void> updateProfile(String firstname, String lastname,String city, String age, String imagelink,String number) {
+		String res = ApiCaller.callSyncrone(urlserver + "?action=updateuser&imagelink="+imagelink+"&age="+age+"&city="+city+"&number="+number+ "&token=" + token);
+		ResponseApi<Void> rep = new ResponseApi<Void>();
+		Parser.parse(rep, res, "what", "type", "info", "details");
+		if(rep.isOK()){
+			setFirstName(firstname);
+			setLastName(lastname);
+			setCity(city);
+			setAge(age);
+			setImagelink(imagelink);
+			setNumber(number);
+		}
+		
 		return rep;
 
 	}
@@ -224,10 +251,10 @@ public class OwerUser {
 	 * @param regex
 	 * @return {@link ResponseApi} witth {@link ArrayList} of {@link OwerUser}
 	 */
-	public ResponseApi<ArrayList<OwerUser>> search(String regex) {
+	public ResponseApi<ArrayList<Friend>> search(String regex) {
 
-		ResponseApi<ArrayList<OwerUser>> ret = new ResponseApi<ArrayList<OwerUser>>();
-		ArrayList<OwerUser> searchedFriends = new ArrayList<OwerUser>();
+		ResponseApi<ArrayList<Friend>> ret = new ResponseApi<ArrayList<Friend>>();
+		ArrayList<Friend> searchedFriends = new ArrayList<Friend>();
 		String res = ApiCaller.callSyncrone(urlserver
 				+ "?action=searchfriends&token=" + this.token + "&search="
 				+ regex);
@@ -239,9 +266,9 @@ public class OwerUser {
 				JSONArray frds = f.getJSONArray("friends");
 
 				for (int i = 0; i < frds.length(); i++) {
-					OwerUser friend = new OwerUser();
+					Friend friend = new Friend();
 					Parser.parse(friend, frds.getJSONObject(i), "pseudo",
-							"firstName", "lastName", "publictoken");
+							"firstName", "lastName", "publictoken","number","age","city","imagelink");
 					searchedFriends.add(friend);
 				}
 				ret.setResults(searchedFriends);
@@ -253,91 +280,17 @@ public class OwerUser {
 		return ret;
 	}
 
-	public String getPublictoken() {
-		return publictoken;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	public Position getGeoloc() {
-		return geoloc;
-	}
-
-	public static String getUrlserver() {
-		return urlserver;
-	}
-
-	@Override
-	public String toString() {
-		return pseudo + " : " + firstName + " : " + lastName + " : " + token
-				+ " : " + publictoken + "\n" + getFriends();
-	}
-
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getImagelink() {
-		return imagelink;
-	}
-
-	public void setImagelink(String imageLink) {
-		this.imagelink = imageLink;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	public void setToken(String token) {
 		this.token = token;
 	}
-
-	public void setPublictoken(String publictoken) {
-		this.publictoken = publictoken;
+	
+	public String getToken() {
+		return token;
 	}
-
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
+	@Override
+	public String toString() {
+		return super.toString() + "\n" + getFriends();
 	}
-
-	public void setGeoloc(Position geoloc) {
-		this.geoloc = geoloc;
-	}
-
-	public void setFriends(ArrayList<OwerUser> friends) {
-		this.friends = friends;
-	}
-
 
 }

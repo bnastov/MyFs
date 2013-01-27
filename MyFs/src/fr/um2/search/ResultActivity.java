@@ -12,14 +12,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import fr.um2.apicaller.OwerUser;
 import fr.um2.apicaller.ResponseApi;
 import fr.um2.myfs.ConnectedActivity;
 import fr.um2.myfs.R;
+import fr.um2.user.Friend;
+import fr.um2.user.OwerUser;
 import fr.um2.utils.OwerUserAdapter;
 
 public class ResultActivity extends ListActivity {
-	List<OwerUser> found;
+	List<Friend> found;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class ResultActivity extends ListActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View item,
 					int position, long id) {
-				OwerUser planet = found.get(position);
+				Friend planet = found.get(position);
 				ResponseApi<Void> res = OwerUser.getUser().addFriend(
 						planet.getPublictoken());
 				if (res.isOK()) {

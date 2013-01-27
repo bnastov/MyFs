@@ -1,6 +1,6 @@
 package fr.um2.service;
 
-import fr.um2.apicaller.OwerUser;
+import fr.um2.user.OwerUser;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
