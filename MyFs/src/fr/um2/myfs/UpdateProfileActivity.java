@@ -1,9 +1,7 @@
 package fr.um2.myfs;
 
-import fr.um2.apicaller.ResponseApi;
-import fr.um2.user.OwerUser;
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -11,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import fr.um2.apicaller.ResponseApi;
+import fr.um2.user.OwerUser;
 
 public class UpdateProfileActivity extends Activity implements OnClickListener {
 	EditText firstname;
@@ -49,14 +49,16 @@ public class UpdateProfileActivity extends Activity implements OnClickListener {
 		return true;
 	}
 
-	@SuppressLint("ShowToast")
+	
 	@Override
 	public void onClick(View arg0) {
 		ResponseApi<Void> res = OwerUser.getUser().updateProfile(firstname.getText()+"", lastname.getText()+"", city.getText()+"", age.getText()+"", imageLink.getText()+"", number.getText()+"");
 		if(res.isOK()){
+			Intent sea = new Intent(this, ConnectedActivity.class);
+			startActivity(sea);
 			this.finish();
 		} else {
-			Toast.makeText(this, res.toString(), Toast.LENGTH_LONG);
+			Toast.makeText(this, res.toString(), Toast.LENGTH_LONG).show();
 		}
 	}
 

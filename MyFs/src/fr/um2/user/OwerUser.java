@@ -6,20 +6,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
 import fr.um2.apicaller.ApiCaller;
 import fr.um2.apicaller.Parser;
 import fr.um2.apicaller.Position;
 import fr.um2.apicaller.ResponseApi;
 
-import android.util.Log;
-
-public class OwerUser extends AbstractUser{
+public class OwerUser extends AbstractUser {
 	String token = "";
-	
 
 	ArrayList<Friend> friends = new ArrayList<Friend>();
-	
-	
+
 	private OwerUser() {
 	}
 
@@ -95,7 +92,8 @@ public class OwerUser extends AbstractUser{
 			if (response.isOK()) {
 				instance = new OwerUser();
 				Parser.parse(instance, res, "pseudo", "firstName", "lastName",
-						"token", "publictoken", "age", "city", "imagelink", "number");
+						"token", "publictoken", "age", "city", "imagelink",
+						"number");
 
 				response.setResults(instance);
 			} else {
@@ -150,7 +148,14 @@ public class OwerUser extends AbstractUser{
 				for (int i = 0; i < frds.length(); i++) {
 					Friend friend = new Friend();
 					Parser.parse(friend, frds.getJSONObject(i), "pseudo",
-							"firstName", "lastName", "publictoken", "city", "age", "imagelink", "number");
+							"firstName", "lastName", "publictoken", "city",
+							"age", "imagelink", "number");
+					
+					Position p = new Position();
+					Parser.parse(p, frds.getJSONObject(i));
+					
+					friend.setGeoloc(p);
+					
 					friends.add(friend);
 				}
 			}
@@ -159,8 +164,6 @@ public class OwerUser extends AbstractUser{
 		}
 
 	}
-
-	
 
 	/**
 	 * To update user Position
@@ -179,32 +182,39 @@ public class OwerUser extends AbstractUser{
 		return rep;
 
 	}
-	
-	
+
 	/**
-	 * To update user Visibility 
+	 * To update user Visibility
+	 * 
 	 * @param value
 	 * @return
 	 */
 	public ResponseApi<Void> updateVisible(Boolean value) {
-		String res = ApiCaller.callSyncrone(urlserver + "?action=update&visible=" +value.toString() + "&token=" + token);
+		String res = ApiCaller.callSyncrone(urlserver
+				+ "?action=update&visible=" + value.toString() + "&token="
+				+ token);
 		ResponseApi<Void> rep = new ResponseApi<Void>();
 		Parser.parse(rep, res, "what", "type", "info", "details");
 		return rep;
 
 	}
-	
-	
+
 	/**
-	 * To update user Visibility 
-	 * @param value
+	 * To update user informations
+	 * 
 	 * @return
 	 */
-	public ResponseApi<Void> updateProfile(String firstname, String lastname,String city, String age, String imagelink,String number) {
-		String res = ApiCaller.callSyncrone(urlserver + "?action=updateuser&imagelink="+imagelink+"&age="+age+"&city="+city+"&number="+number+ "&token=" + token);
+	public ResponseApi<Void> updateProfile(String firstname, String lastname,
+			String city, String age, String imagelink, String number) {
+		String res = ApiCaller.callSyncrone(urlserver
+				+ "?action=updateuser&firstname=" + firstname + "&lastname="
+				+ lastname + "&imagelink=" + imagelink + "&age=" + age
+				+ "&city=" + city + "&number=" + number + "&token=" + token);
+		
+		
 		ResponseApi<Void> rep = new ResponseApi<Void>();
 		Parser.parse(rep, res, "what", "type", "info", "details");
-		if(rep.isOK()){
+		if (rep.isOK()) {
 			setFirstName(firstname);
 			setLastName(lastname);
 			setCity(city);
@@ -212,7 +222,7 @@ public class OwerUser extends AbstractUser{
 			setImagelink(imagelink);
 			setNumber(number);
 		}
-		
+
 		return rep;
 
 	}
@@ -268,7 +278,8 @@ public class OwerUser extends AbstractUser{
 				for (int i = 0; i < frds.length(); i++) {
 					Friend friend = new Friend();
 					Parser.parse(friend, frds.getJSONObject(i), "pseudo",
-							"firstName", "lastName", "publictoken","number","age","city","imagelink");
+							"firstName", "lastName", "publictoken", "number",
+							"age", "city", "imagelink");
 					searchedFriends.add(friend);
 				}
 				ret.setResults(searchedFriends);
@@ -280,14 +291,14 @@ public class OwerUser extends AbstractUser{
 		return ret;
 	}
 
-
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
+
 	public String getToken() {
 		return token;
 	}
+
 	@Override
 	public String toString() {
 		return super.toString() + "\n" + getFriends();

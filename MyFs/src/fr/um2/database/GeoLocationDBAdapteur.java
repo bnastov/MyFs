@@ -75,7 +75,7 @@ public class GeoLocationDBAdapteur {
 	public long insertGeoLocation(GeoLocation geo) {
 		ContentValues valeurs = new ContentValues();
 		
-		valeurs.put(COLONNE_PRIVATE_TOKEN, 	OwerUser.getUser().getToken());
+		valeurs.put(COLONNE_PRIVATE_TOKEN, 	geo.getToken());
 		valeurs.put(COLONNE_PUBLIC_TOKEN, 	geo.getPublictoken());
 		valeurs.put(COLONNE_LATITUDE, 		geo.getLat());
 		valeurs.put(COLONNE_LONGITUDE, 		geo.getLon());
@@ -110,15 +110,16 @@ public class GeoLocationDBAdapteur {
 			return null;
 		
 		ArrayList<GeoLocation> result = new ArrayList<GeoLocation>();
-		String pt,ti;
+		String pt,ti,t;
 		Double la,lo;
 		c.moveToFirst();
 		while(c.moveToNext()){
+			t = c.getString(COLONNE_PRIVATE_TOEKN_ID);
 			pt = c.getString(COLONNE_PUBLIC_TOEKN_ID);
 			la = c.getDouble(COLONNE_LATITUDE_ID);
 			lo = c.getDouble(COLONNE_LONGITUDE_ID);
 			ti = c.getString(COLONNE_TIME_ID);
-			result.add(new GeoLocation(pt, la, lo, ti));		
+			result.add(new GeoLocation(t,pt, la, lo, ti));		
 		}
 		return result;
 	}

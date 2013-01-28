@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,8 +34,6 @@ import com.activeandroid.ActiveAndroid;
 
 import fr.um2.apicaller.Position;
 import fr.um2.apicaller.ResponseApi;
-import fr.um2.database.GeoLocationDBAdapteur;
-import fr.um2.entities.GeoLocation;
 import fr.um2.imageloader.ImageLoader;
 import fr.um2.search.SearchActivity;
 import fr.um2.service.GeoSendService;
@@ -47,7 +47,7 @@ public class ConnectedActivity extends FragmentActivity implements
 	Intent serviceGeoSender;
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
-	
+
 	static ArrayList<Friend> listFriends;
 	static ArrayList<Friend> listSortedFriends = null;
 
@@ -55,12 +55,11 @@ public class ConnectedActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StartGeoSender();
-		ActiveAndroid.initialize(this);
 
-		//OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
+		// OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
 		OwerUser.loginUser("bibouh123", "rabah123");
 		listFriends = OwerUser.getUser().getFriendsWeb();
-		
+
 		initilizeFriendList();
 		setContentView(R.layout.activity_connected);
 
@@ -92,11 +91,11 @@ public class ConnectedActivity extends FragmentActivity implements
 					public void onItemClick(AdapterView<?> parent, View item,
 							int position, long id) {
 						Friend planet;
-						if(listSortedFriends != null)
+						if (listSortedFriends != null)
 							planet = listSortedFriends.get(position);
 						else
 							planet = listFriends.get(position);
-						
+
 						Log.i("My", planet.toString());
 					}
 				});
@@ -113,47 +112,61 @@ public class ConnectedActivity extends FragmentActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_option_update_profile:
-				Intent update = new Intent(this, UpdateProfileActivity.class);
-				this.startActivity(update);
-				break;			
-			case R.id.menu_option_search_friends:
-				Log.i("My", "search Menu Clicked");
-				Intent sea = new Intent(this, SearchActivity.class);
-				this.startActivity(sea);
-				break;
-			case R.id.menu_option_refresh_friends:
-				OwerUser.getUser().getFriendsWeb();
-				Log.i("My", "Refresh Freinds menu Clicked");
-				listSortedFriends = null;
-				DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, listFriends);
-				break;
-			case R.id.sub_sub_menu_option_sort_by_first_name:
-				Log.i("My", "Sort by First Name menu Clicked");
-				DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, sortByFirstName());
-				break;
-			case R.id.sub_sub_menu_option_sort_by_last_name:
-				Log.i("My", "Sort by Last Name menu Clicked");
-				DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, sortByLastName());
-				break;
-			case R.id.sub_sub_menu_option_sort_by_age_increasing :
-				Log.i("My", "Sort by Age Increasing menu Clicked");
-				DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, sortByAgeIncreasing());
-				break;
-			case R.id.sub_sub_menu_option_sort_by_age_decreasing :
-				Log.i("My", "Sort by Age Decreasing menu Clicked");
-				DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, sortByAgeDecreasing());
-				break;
-			case R.id.sub_menu_option_by_city :
-				Log.i("My", "Sort by City menu Clicked");
-				DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, sortByCity());
-				break;
-			case R.id.sub_menu_option_sort_by_distance :
-				Log.i("My", "Sort by Distance menu Clicked");
-				DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, sortByDistance());
-				break;
-			default:
-				break;
+		case R.id.menu_option_map:
+			Intent map = new Intent(this, GoogleMapActivity.class);
+			this.startActivity(map);
+			break;
+		case R.id.menu_option_update_profile:
+			Intent update = new Intent(this, UpdateProfileActivity.class);
+			this.startActivity(update);
+			this.finish();
+			break;
+		case R.id.menu_option_search_friends:
+			Log.i("My", "search Menu Clicked");
+			Intent sea = new Intent(this, SearchActivity.class);
+			this.startActivity(sea);
+			break;
+		case R.id.menu_option_refresh_friends:
+			OwerUser.getUser().getFriendsWeb();
+			Log.i("My", "Refresh Freinds menu Clicked");
+			listSortedFriends = null;
+			DummySectionFragment.initilizeFriends(
+					DummySectionFragment.listfriends, this, listFriends);
+			break;
+		case R.id.sub_sub_menu_option_sort_by_first_name:
+			Log.i("My", "Sort by First Name menu Clicked");
+			DummySectionFragment.initilizeFriends(
+					DummySectionFragment.listfriends, this, sortByFirstName());
+			break;
+		case R.id.sub_sub_menu_option_sort_by_last_name:
+			Log.i("My", "Sort by Last Name menu Clicked");
+			DummySectionFragment.initilizeFriends(
+					DummySectionFragment.listfriends, this, sortByLastName());
+			break;
+		case R.id.sub_sub_menu_option_sort_by_age_increasing:
+			Log.i("My", "Sort by Age Increasing menu Clicked");
+			DummySectionFragment.initilizeFriends(
+					DummySectionFragment.listfriends, this,
+					sortByAgeIncreasing());
+			break;
+		case R.id.sub_sub_menu_option_sort_by_age_decreasing:
+			Log.i("My", "Sort by Age Decreasing menu Clicked");
+			DummySectionFragment.initilizeFriends(
+					DummySectionFragment.listfriends, this,
+					sortByAgeDecreasing());
+			break;
+		case R.id.sub_menu_option_by_city:
+			Log.i("My", "Sort by City menu Clicked");
+			DummySectionFragment.initilizeFriends(
+					DummySectionFragment.listfriends, this, sortByCity());
+			break;
+		case R.id.sub_menu_option_sort_by_distance:
+			Log.i("My", "Sort by Distance menu Clicked");
+			DummySectionFragment.initilizeFriends(
+					DummySectionFragment.listfriends, this, sortByDistance());
+			break;
+		default:
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -165,15 +178,14 @@ public class ConnectedActivity extends FragmentActivity implements
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		public Fragment profile;
 		public Fragment listFriends;
-		public Fragment map;
-		
+		public Fragment database;
+
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 			profile = getItem(0);
 			listFriends = getItem(1);
-			map = getItem(2);
+			database = getItem(2);
 		}
-		
 
 		@Override
 		public Fragment getItem(int position) {
@@ -248,16 +260,17 @@ public class ConnectedActivity extends FragmentActivity implements
 				break;
 
 			case 1:
-				initilizeFriends(listfriends, getActivity(), ConnectedActivity.listFriends);
+				initilizeFriends(listfriends, getActivity(),
+						ConnectedActivity.listFriends);
 				ret = listfriends;
 
 				break;
 
 			case 2:
-				/*
-				 * View v3 = layoutInflater.inflate(R.layout.view_info, null);
-				 * initializeMap(v3); ret = v3;//
-				 */
+
+				View v3 = layoutInflater.inflate(R.layout.view_info, null);
+				initializeGrid(v3);
+				ret = v3;//
 
 				break;
 
@@ -268,13 +281,29 @@ public class ConnectedActivity extends FragmentActivity implements
 			return ret;
 		}
 
-		/*private void initializeMap(View v3) {
-			TextView v = (TextView) v3.findViewById(R.id.debug);
-			v.setText(GeoLocation.getRandom().toString());
-		}//*/
+		private void initializeGrid(View v3) {
 
-		public static void initilizeFriends(ListView v2, Activity a, ArrayList<Friend> listFriends2) {
-			
+			GridView gridView;
+
+			ArrayList<String> values = new ArrayList<String>();
+			values.add("a");
+			values.add("b");
+			values.add("c");
+			values.add("d"); 
+			values.add("e");
+			values.add("f");
+			gridView = (GridView) v3.findViewById(R.id.gridView1);
+
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+					android.R.layout.simple_list_item_1, values);
+
+			gridView.setAdapter(adapter);
+
+		}
+
+		public static void initilizeFriends(ListView v2, Activity a,
+				ArrayList<Friend> listFriends2) {
+
 			OwerUserAdapter ad = new OwerUserAdapter(a,
 					R.layout.oweruser_adapter, R.id.ad_pseudo, listFriends2);
 			ListView listView = v2;
@@ -286,12 +315,12 @@ public class ConnectedActivity extends FragmentActivity implements
 
 		private void initilizeProfil(View v) {
 			firstName = (TextView) v.findViewById(R.id.FirstName);
-			lastName = 	(TextView) v.findViewById(R.id.LastName);
-			pseudo = 	(TextView) v.findViewById(R.id.identifier);
-			city = 		(TextView) v.findViewById(R.id.city);
-			age = 		(TextView) v.findViewById(R.id.age);
+			lastName = (TextView) v.findViewById(R.id.LastName);
+			pseudo = (TextView) v.findViewById(R.id.identifier);
+			city = (TextView) v.findViewById(R.id.city);
+			age = (TextView) v.findViewById(R.id.age);
 			imageView = (ImageView) v.findViewById(R.id.imageView1);
-			
+
 			if (firstName == null) {
 				Log.i("My", "firstname est null");
 			}
@@ -302,13 +331,11 @@ public class ConnectedActivity extends FragmentActivity implements
 			lastName.setText(f.getLastName());
 			city.setText(f.getCity());
 			age.setText(f.getAge());
-		
-			
-			
-			
-			int loader = R.drawable.ic_launcher; 
-	        ImageLoader imgLoader = new ImageLoader(this.getActivity());
-	        imgLoader.DisplayImage(OwerUser.getUser().getImagelink(), loader, imageView);
+
+			int loader = R.drawable.ic_launcher;
+			ImageLoader imgLoader = new ImageLoader(this.getActivity());
+			imgLoader.DisplayImage(OwerUser.getUser().getImagelink(), loader,
+					imageView);
 		}
 
 	}
@@ -331,7 +358,7 @@ public class ConnectedActivity extends FragmentActivity implements
 		menu.add(0, 2, 0, R.string.menu_context_info_friend);
 		menu.add(0, 3, 0, R.string.menu_context_call_friend);
 		menu.add(0, 4, 0, R.string.menu_context_send_sms);
-		
+
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
@@ -344,12 +371,12 @@ public class ConnectedActivity extends FragmentActivity implements
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		Friend selected;
-		//Verify if the list is sorted
-		if(ConnectedActivity.listSortedFriends == null)
+		// Verify if the list is sorted
+		if (ConnectedActivity.listSortedFriends == null)
 			selected = ConnectedActivity.listFriends.get(info.position);
 		else
 			selected = ConnectedActivity.listSortedFriends.get(info.position);
-			
+
 		switch (item.getItemId()) {
 		/**
 		 * Delete Case
@@ -365,14 +392,15 @@ public class ConnectedActivity extends FragmentActivity implements
 						Toast.LENGTH_LONG).show();
 
 				ConnectedActivity.listFriends.remove(selected);
-				if(ConnectedActivity.listSortedFriends != null){
+				if (ConnectedActivity.listSortedFriends != null) {
 					ConnectedActivity.listSortedFriends.remove(selected);
-					DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, this, 
+					DummySectionFragment.initilizeFriends(
+							DummySectionFragment.listfriends, this,
 							ConnectedActivity.listSortedFriends);
-				}
-				else
-					DummySectionFragment.initilizeFriends(DummySectionFragment.listfriends, 
-							this, ConnectedActivity.listFriends);
+				} else
+					DummySectionFragment.initilizeFriends(
+							DummySectionFragment.listfriends, this,
+							ConnectedActivity.listFriends);
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"Suppression Impossible \n " + res.toString(),
@@ -385,52 +413,44 @@ public class ConnectedActivity extends FragmentActivity implements
 		 * info Case
 		 */
 		case 2:
-			//Ajouter dans la dbb
-			ResponseApi<Position> repo = OwerUser.getUser()
+			// Ajouter dans la dbb
+			/*ResponseApi<Position> repo = OwerUser.getUser()
 					.getGeoLocalizationOfFriend(selected.getPublictoken());
-			if (repo.isOK()) {
+			if (repo.isOK()) {//*/
 
-				GeoLocation f = new GeoLocation(selected.getPublictoken(), repo
-						.getResults().getLat(), repo.getResults().getLon(),
-						repo.getResults().getTime());
-				//mSectionsPagerAdapter.map
-//				Toast.makeText(
-//						getApplicationContext(),
-//						"Info Friend \n Pseudo :" + selected.getPseudo()
-//								+ " \n First Name : " + selected.getFirstName()
-//								+ " \n Last Name :" + selected.getLastName() + 
-//								f.toString(), 
-//						Toast.LENGTH_LONG).show();
+				Toast.makeText(
+						getApplicationContext(),
+						"Info Friend \n Pseudo :" + selected.getPseudo()
+								+ " \n First Name : " + selected.getFirstName()
+								+ " \n Last Name :" + selected.getLastName()
+								+ "\n postion at \n"+selected.getGeoloc().toString(),
+						Toast.LENGTH_LONG).show();
 
-				GeoLocationDBAdapteur base = new GeoLocationDBAdapteur(getApplicationContext());
-				base.open();
-				base.insertGeoLocation(f);
-				base.close();
-				
-			} else {
+			/*} else {
 				Log.e("My", "ERREUR Dans la requete de recuperation");
-			}
-			
+			}//*/
+
 			break;
 		case 3:
-			//Simulation d'appel
+			// Simulation d'appel
 			Uri uri = Uri.parse("tel:0612345678");
 			Intent intent = new Intent(Intent.ACTION_DIAL, uri);
 			startActivity(intent);
-		
+
 		case 4:
-			//Simulation d'envoie de sms
-			//cas 1 :
+			// Simulation d'envoie de sms
+			// cas 1 :
 			/*
-			SmsManager smsManager = SmsManager.getDefault();
-			smsManager.sendTextMessage("0612345678", null, "sms message", null, null);
-			*/
-			//cas 2 :
-			Uri sms_uri = Uri.parse("smsto:+33612345678"); 
-	        Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri); 
-	        sms_intent.putExtra("sms_body", "Good Morning ! how r U ?"); 
-	        startActivity(sms_intent); 
-			
+			 * SmsManager smsManager = SmsManager.getDefault();
+			 * smsManager.sendTextMessage("0612345678", null, "sms message",
+			 * null, null);
+			 */
+			// cas 2 :
+			Uri sms_uri = Uri.parse("smsto:+33612345678");
+			Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+			sms_intent.putExtra("sms_body", "Good Morning ! how r U ?");
+			startActivity(sms_intent);
+
 		default:
 			break;
 		}
@@ -442,45 +462,47 @@ public class ConnectedActivity extends FragmentActivity implements
 		super.onDestroy();
 		ActiveAndroid.dispose();
 	}
-	
+
 	/**
 	 * This function sorts the friend list by first name
+	 * 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
 	 */
-	private ArrayList<Friend> sortByFirstName(){
+	private ArrayList<Friend> sortByFirstName() {
 		ArrayList<String> sortedFirstNames = new ArrayList<String>();
 		for (Friend owerUser : listFriends) {
 			sortedFirstNames.add(owerUser.getFirstName());
 		}
 		Collections.sort(sortedFirstNames);
-		
+
 		ArrayList<Friend> result = new ArrayList<Friend>();
-		for(String firstName : sortedFirstNames){
-			for(Friend friend : listFriends){
-				if(friend.getFirstName().equals(firstName)){
+		for (String firstName : sortedFirstNames) {
+			for (Friend friend : listFriends) {
+				if (friend.getFirstName().equals(firstName)) {
 					result.add(friend);
 				}
 			}
 		}
-		ConnectedActivity.listSortedFriends = result;			
+		ConnectedActivity.listSortedFriends = result;
 		return result;
 	}
-	
+
 	/**
 	 * This function sorts the friend list by first name
+	 * 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
-	 */	
-	private ArrayList<Friend> sortByLastName(){
+	 */
+	private ArrayList<Friend> sortByLastName() {
 		ArrayList<String> sortedLastNames = new ArrayList<String>();
 		for (Friend owerUser : listFriends) {
 			sortedLastNames.add(owerUser.getLastName());
 		}
 		Collections.sort(sortedLastNames);
-		
+
 		ArrayList<Friend> result = new ArrayList<Friend>();
-		for(String lastName : sortedLastNames){
-			for(Friend friend : listFriends){
-				if(friend.getFirstName().equals(lastName)){
+		for (String lastName : sortedLastNames) {
+			for (Friend friend : listFriends) {
+				if (friend.getFirstName().equals(lastName)) {
 					result.add(friend);
 				}
 			}
@@ -488,22 +510,23 @@ public class ConnectedActivity extends FragmentActivity implements
 		ConnectedActivity.listSortedFriends = result;
 		return result;
 	}
-	
+
 	/**
-	 * This function sorts the friend list by increasing age 
+	 * This function sorts the friend list by increasing age
+	 * 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
-	 */	
-	private ArrayList<Friend> sortByAgeIncreasing(){
+	 */
+	private ArrayList<Friend> sortByAgeIncreasing() {
 		ArrayList<String> sortedAge = new ArrayList<String>();
 		for (Friend owerUser : listFriends) {
 			sortedAge.add(owerUser.getAge());
 		}
 		Collections.sort(sortedAge);
-		
+
 		ArrayList<Friend> result = new ArrayList<Friend>();
-		for(String age : sortedAge){
-			for(Friend friend : listFriends){
-				if(friend.getAge().equals(age)){
+		for (String age : sortedAge) {
+			for (Friend friend : listFriends) {
+				if (friend.getAge().equals(age)) {
 					result.add(friend);
 				}
 			}
@@ -511,33 +534,35 @@ public class ConnectedActivity extends FragmentActivity implements
 		ConnectedActivity.listSortedFriends = result;
 		return result;
 	}
-	
+
 	/**
-	 * This function sorts the friend list by decreasing age 
+	 * This function sorts the friend list by decreasing age
+	 * 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
-	 */	
-	private ArrayList<Friend> sortByAgeDecreasing(){
+	 */
+	private ArrayList<Friend> sortByAgeDecreasing() {
 		ArrayList<Friend> sortedFriendsByAgeDecreasing = sortByAgeIncreasing();
 		Collections.reverse(sortedFriendsByAgeDecreasing);
 		listSortedFriends = sortedFriendsByAgeDecreasing;
 		return sortedFriendsByAgeDecreasing;
 	}
-	
+
 	/**
 	 * This function sorts the friend list by city
+	 * 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
-	 */	
-	private ArrayList<Friend> sortByCity(){
+	 */
+	private ArrayList<Friend> sortByCity() {
 		ArrayList<String> sortedCity = new ArrayList<String>();
 		for (Friend owerUser : listFriends) {
 			sortedCity.add(owerUser.getCity());
 		}
 		Collections.sort(sortedCity);
-		
+
 		ArrayList<Friend> result = new ArrayList<Friend>();
-		for(String ciity : sortedCity){
-			for(Friend friend : listFriends){
-				if(friend.getCity().equals(ciity)){
+		for (String ciity : sortedCity) {
+			for (Friend friend : listFriends) {
+				if (friend.getCity().equals(ciity)) {
 					result.add(friend);
 				}
 			}
@@ -545,23 +570,24 @@ public class ConnectedActivity extends FragmentActivity implements
 		ConnectedActivity.listSortedFriends = result;
 		return result;
 	}
-	
+
 	/**
 	 * This function sorts the friend list by first distance
+	 * 
 	 * @return sorted {@link ArrayList} of {@link OwerUser}
-	 */	
-	private ArrayList<Friend> sortByDistance(){
+	 */
+	private ArrayList<Friend> sortByDistance() {
 		ArrayList<Position> sortedDistances = new ArrayList<Position>();
-		
+
 		for (Friend owerUser : listFriends) {
 			sortedDistances.add(owerUser.getGeoloc());
 		}
 		Collections.sort(sortedDistances);
-		
+
 		ArrayList<Friend> result = new ArrayList<Friend>();
-		for(Position position : sortedDistances){
-			for(Friend friend : listFriends){
-				if(friend.getGeoloc().equals(position)){
+		for (Position position : sortedDistances) {
+			for (Friend friend : listFriends) {
+				if (friend.getGeoloc().equals(position)) {
 					result.add(friend);
 				}
 			}

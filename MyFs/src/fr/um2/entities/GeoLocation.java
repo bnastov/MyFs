@@ -1,22 +1,14 @@
 package fr.um2.entities;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
+public class GeoLocation {
 
-@Table(name = "GeoLocation")
-public class GeoLocation extends Model {
-	@Column(name = "publictoken")
+	String token;
 	String publictoken;
 
-	@Column(name = "lat")
 	double lat;
 
-	@Column(name = "lon")
 	double lon;
 
-	@Column(name = "time")
 	String time;
 
 	public GeoLocation() {
@@ -24,8 +16,8 @@ public class GeoLocation extends Model {
 
 	}
 
-	public GeoLocation(String pt, double lt, double lg, String ti) {
-		super();
+	public GeoLocation(String t, String pt, double lt, double lg, String ti) {
+		token = t;
 		publictoken = pt;
 		lat = lt;
 		lon = lg;
@@ -35,12 +27,16 @@ public class GeoLocation extends Model {
 
 	@Override
 	public String toString() {
-		return publictoken + "\n" + lat + "\n" + lon + "n" + time;
+		return token + "\n" + publictoken + "\n" + lat + "\n" + lon + "n"
+				+ time;
 	}
 
-	public static GeoLocation getRandom() {
-		return new Select().from(GeoLocation.class).orderBy("RANDOM()")
-				.executeSingle();
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public String getPublictoken() {
@@ -74,6 +70,5 @@ public class GeoLocation extends Model {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	
-	
+
 }

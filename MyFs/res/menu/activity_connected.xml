@@ -1,5 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item 
+	    android:id="@+id/menu_option_map"
+	    android:title="@string/menu_option_map"/>
+	<item 
 	    android:id="@+id/menu_option_update_profile"
 	    android:title="@string/menu_option_update_profile"/>
     <item
