@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="update_profile_firstname" >First Name
+    </string>
+
+    <string name="update_profile_lastname" >Last Name
+    </string>
+
+    <string name="update_profile_phonenumber" >Phone Number
+    </string>
+
+    <string name="update_profile_age" >Age
+    </string>
+
+    <string name="update_profile_city" >City
+    </string>
+
+    <string name="update_profile_imagelink" >Image Profile Link
+    </string><string name="update_profile_submit" >Update Profile</string>
+
+</resources>

@@ -25,7 +25,6 @@ public class GoogleMapActivity extends MapActivity {
 	MapView map;
 	int index = -1;
 	List<GeoPoint> points = new ArrayList<GeoPoint>();
-	Friend notificationFriend;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,46 +34,13 @@ public class GoogleMapActivity extends MapActivity {
 		map = (MapView) findViewById(R.id.mapView);
 		map.setBuiltInZoomControls(true);
 
-		if (this.getIntent().getExtras() != null) {
-			notificationFriend = (Friend) getIntent().getExtras().get(onePoint);
-
-			getOverlayfromGeolocation(notificationFriend);
-		} else {
-			getOverlayfromFriend();
-		}
-	}
-
-	private void getOverlayfromGeolocation(Friend friend) {
-		index = -1;
-		List<Overlay> mapOverlays = map.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(
-				R.drawable.ic_launcher);
-
-		MyMarker itemizedoverlay = new MyMarker(drawable, this);
-
-		GeoPoint point = new GeoPoint(
-				(int) (friend.getGeoloc().getLat() * 1000000), (int) (friend
-						.getGeoloc().getLon() * 1000000));
-
-		points.add(point);
-
-		if (index < 0) {
-			index = 0;
-			map.getController().setCenter(point);
-			map.getController().setZoom(17);
-		}
-
-		OverlayItem overlayitem = new OverlayItem(point, friend.getPseudo(),
-				friend.getNumber());
-
-		itemizedoverlay.addOverlay(overlayitem);
-		mapOverlays.add(itemizedoverlay);
-
+		getOverlayfromFriend();
 	}
 
 	private void getOverlayfromFriend() {
 		index = -1;
 		List<Overlay> mapOverlays = map.getOverlays();
+		points.clear();
 		for (Friend friend : OwerUser.getUser().getFriends()) {
 			if (friend.isVisibleInMap()) {
 
@@ -92,7 +58,7 @@ public class GoogleMapActivity extends MapActivity {
 				if (index < 0) {
 					index = 0;
 					map.getController().setCenter(point);
-					map.getController().setZoom(17);
+					map.getController().setZoom(12);
 				}
 
 				OverlayItem overlayitem = new OverlayItem(point,

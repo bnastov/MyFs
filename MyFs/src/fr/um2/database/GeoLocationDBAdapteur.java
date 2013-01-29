@@ -26,7 +26,7 @@ public class GeoLocationDBAdapteur {
 	private static final String COLONNE_PUBLIC_TOKEN = "public_token";
 	public static final int COLONNE_PUBLIC_TOEKN_ID = 2;
 	
-	private static final String COLONNE_PSEUDO = "public_token";
+	private static final String COLONNE_PSEUDO = "pseudo";
 	public static final int COLONNE_PSEUDO_ID = 3;
 	
 	
@@ -73,6 +73,9 @@ public class GeoLocationDBAdapteur {
 		maBaseDonnees.close();
 	}
 	
+	public void deleteDB(){
+		maBaseDonnees.execSQL("drop table " + TABLE_GEO_LOCATION + ";");
+	}
 	/**
 	 * Insert {@link GeoLocation} into the database
 	 * @param geo the instance to be inserted

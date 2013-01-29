@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_menu_option_nextuser">Next</string>
+    <string name="map_menu_option_beforeuser">Previous</string>
+    <string name="map_menu_option_quit">Back To Profile</string>
+    <string name="map_menu_refresh">Refresh Position</string>
+    
+</resources>

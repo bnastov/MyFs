@@ -50,17 +50,19 @@ public class ConnectedActivity extends FragmentActivity implements
 
 	static ArrayList<Friend> listFriends;
 	static ArrayList<Friend> listSortedFriends = null;
- 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StartGeoSender();
 		setContentView(R.layout.activity_connected);
 
-		//OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
-		OwerUser.loginUser("bibouh123@live.fr", "rabah123");
-
+		// OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
+		//OwerUser.loginUser("bibouh123@live.fr", "rabah123");
+		 //OwerUser.loginUser("linzo123@live.fr", "linzo123");
 		
+		
+
 		listFriends = OwerUser.getUser().getFriendsWeb();
 
 		initilizeFriendList();
@@ -203,7 +205,7 @@ public class ConnectedActivity extends FragmentActivity implements
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		public Fragment profile;
 		public Fragment listFriends;
-		
+
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 			profile = getItem(0);
@@ -405,12 +407,12 @@ public class ConnectedActivity extends FragmentActivity implements
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		menu.setHeaderTitle(R.string.menu_context_name);
-		menu.setHeaderIcon(android.R.drawable.ic_delete);
+		//menu.setHeaderIcon(android.R.drawable.ic_delete);
 		menu.add(0, 1, 0, R.string.menu_context_delete_friend);
 		menu.add(0, 2, 0, R.string.menu_context_info_friend);
 		menu.add(0, 3, 0, R.string.menu_context_call_friend);
 		menu.add(0, 4, 0, R.string.menu_context_send_sms);
-		menu.add(0, 5, 0, "Test Notification");
+		//menu.add(0, 5, 0, "Test Notification");
 
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
@@ -478,19 +480,18 @@ public class ConnectedActivity extends FragmentActivity implements
 			break;
 		case 3:
 			// Simulation d'appel
-			Uri uri = Uri.parse(selected.getNumber());
+			Uri uri = Uri.parse("tel:"+selected.getNumber());
 			Intent intent = new Intent(Intent.ACTION_DIAL, uri);
 			startActivity(intent);
 			break;
 		case 4:
-			Uri sms_uri = Uri.parse(selected.getNumber());
+			Uri sms_uri = Uri.parse("smsto:"+selected.getNumber());
 			Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
 			sms_intent.putExtra("sms_body", "Good Morning ! how r U ?");
 			startActivity(sms_intent);
 			break;
 		case 5:
 
-			
 			break;
 		default:
 			break;

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="profil_image_description">Image De Profile Ici</string>
-    <string name="profile_first_name">Prenom</string>
-    <string name="profile_first_name_default">Ajoutez votre prenom</string>
+    <string name="profil_image_description">Profile Image Here</string>
+    <string name="profile_first_name">Prénom</string>
+    <string name="profile_first_name_default">Ton Prénom</string>
     <string name="profile_last_name">Nom</string>
-    <string name="profile_last_name_default">Ajoutez votre nom</string>
-    <string name="profile_city">Ville</string>
-    <string name="profile_city_default">Ajoutez votre ville</string>
+    <string name="profile_last_name_default">Update Your Last Name</string>
+    <string name="profile_city">Vile</string>
+    <string name="profile_city_default">Update Your City</string>
     <string name="profile_age">Age</string>
-    <string name="profile_age_default">Ajoutez votre age</string>
+    <string name="profile_age_default">Update Your Age</string>
+    <string name="profile_visibility">Ma visibilité</string>
 </resources>

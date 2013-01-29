@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+     <string name="menu_option_map">Show In Map</string>
     <string name="menu_option_update_profile">Update Profile</string>
     <string name="menu_option_search_friends">Search Friends</string>
 	<string name="menu_option_refresh_friends">Refresh Friends</string>

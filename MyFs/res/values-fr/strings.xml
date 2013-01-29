@@ -4,7 +4,7 @@
     <string name="app_name">MyFs</string>
     <string name="menu_settings">Settings</string>
     <string name="send">envoi</string>
-    <string name="title_section3">Map</string>
+    <string name="title_section3">Traced Friend</string>
     <string name="title_section2">Friends</string>
     <string name="title_section1">Profil</string>
     <string name="title_activity_connected">ConnectedActivity</string>
@@ -30,5 +30,7 @@
     <string name="mapKey">05jjNhAydp4lBrD_i4IWqj6nGVkYMVSpHOjdATg</string>
     <string name="local_service_started">Geo Sender Service</string>
     <string name="unknown_phone_number">Unknown Phone number</string>
+    <string name="title_activity_update_profile">UpdateProfileActivity</string>
+    <string name="title_activity_send_sms">Send Sms</string>
 
 </resources>

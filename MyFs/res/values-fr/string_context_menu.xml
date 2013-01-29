@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="menu_context_name">Options</string>
-    <string name="menu_context_add_friend">Add Firned</string>
-    <string name="menu_context_delete_friend">Delete Friend</string>
-    <string name="menu_context_info_friend">Info Friend</string>
-    <string name="menu_context_call_friend">Call Friend</string>
-    <string name="menu_context_send_sms">Send SMS</string>
+    <string name="menu_context_name">Préfrences</string>
+    <string name="menu_context_add_friend">AJouter un Ami</string>
+    <string name="menu_context_delete_friend">Supprimer un ami</string>
+    <string name="menu_context_info_friend">Informations</string>
+    <string name="menu_context_call_friend">Appeler</string>
+    <string name="menu_context_send_sms">envoiyer un SMS</string>
+    <string name="menu_context_tracable_on">Stop Tracing</string>
+    <string name="menu_context_tracable_off">Start Tracing</string>
 </resources>
