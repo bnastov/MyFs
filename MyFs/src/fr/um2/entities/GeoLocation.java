@@ -1,7 +1,11 @@
 package fr.um2.entities;
 
+
 public class GeoLocation {
 
+	/**
+	 * 
+	 */
 	String token;
 	String publictoken;
 	String pseudo;

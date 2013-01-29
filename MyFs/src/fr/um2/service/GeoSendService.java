@@ -21,9 +21,8 @@ import fr.um2.apicaller.Position;
 import fr.um2.apicaller.ResponseApi;
 import fr.um2.database.GeoLocationDBAdapteur;
 import fr.um2.entities.GeoLocation;
-import fr.um2.myfs.ConnectedActivity;
+import fr.um2.myfs.GoogleMapActivity;
 import fr.um2.myfs.R;
-import fr.um2.search.ResultActivity;
 import fr.um2.user.Friend;
 import fr.um2.user.OwerUser;
 
@@ -105,6 +104,9 @@ public class GeoSendService extends Service {
 								.getUser()
 								.getGeoLocalizationOfFriend(friend.getPublictoken());
 						if (repo.isOK()) {
+							
+							friend.setGeoloc(repo.getResults());
+							
 							GeoLocation f = new GeoLocation(OwerUser.getUser()
 									.getToken(), friend.getPublictoken(),
 									friend.getPseudo(), repo.getResults().getLat(),
@@ -116,7 +118,7 @@ public class GeoSendService extends Service {
 							base.insertGeoLocation(f);
 							base.close();
 							
-							showNotification();
+							showNotification(friend);
 						}
 					}
 				}
@@ -127,27 +129,25 @@ public class GeoSendService extends Service {
 	
 	Timer timer = new Timer();
 
-	private static final int TWO_MINUTE = 1000;//120 000
+	private static final int TWO_MINUTE = 2000;//120 000
 
 	
-	public void showNotification(){
+	public void showNotification(Friend f){
 		Log.i(TAG, "notification");
+		
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)
 		        .setSmallIcon(R.drawable.ic_launcher)
-		        .setContentTitle("My notification")
-		        .setContentText("Hello World!");
-		// Creates an explicit intent for an Activity in your app
-		Intent resultIntent = new Intent(this, ConnectedActivity.class);
+		        .setContentTitle("Change "+ f.getPseudo())
+		        .setContentText("at "+f.getGeoloc().getLat()+","+f.getGeoloc().getLon());
+		
+		Intent resultIntent = new Intent(this, GoogleMapActivity.class);
 
-		// The stack builder object will contain an artificial back stack for the
-		// started Activity.
-		// This ensures that navigating backward from the Activity leads out of
-		// your application to the Home screen.
+		resultIntent.putExtra("OnePoint", f);
+
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		// Adds the back stack for the Intent (but not the Intent itself)
-		stackBuilder.addParentStack(ConnectedActivity.class);
-		// Adds the Intent that starts the Activity to the top of the stack
+		stackBuilder.addParentStack(GoogleMapActivity.class);
+		
 		stackBuilder.addNextIntent(resultIntent);
 		PendingIntent resultPendingIntent =
 		        stackBuilder.getPendingIntent(
@@ -157,7 +157,6 @@ public class GeoSendService extends Service {
 		mBuilder.setContentIntent(resultPendingIntent);
 		NotificationManager mNotificationManager =
 		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		// mId allows you to update the notification later on.
 		mNotificationManager.notify(0, mBuilder.build());
 	}
 }

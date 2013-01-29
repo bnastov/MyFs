@@ -50,15 +50,17 @@ public class ConnectedActivity extends FragmentActivity implements
 
 	static ArrayList<Friend> listFriends;
 	static ArrayList<Friend> listSortedFriends = null;
-
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StartGeoSender();
 		setContentView(R.layout.activity_connected);
 
-		OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
+		//OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
+		OwerUser.loginUser("bibouh123@live.fr", "rabah123");
 
+		
 		listFriends = OwerUser.getUser().getFriendsWeb();
 
 		initilizeFriendList();

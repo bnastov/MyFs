@@ -20,10 +20,12 @@ import fr.um2.utils.MyMarker;
 
 public class GoogleMapActivity extends MapActivity {
 
+	public static String onePoint = "OnePoint";
+
 	MapView map;
 	int index = -1;
 	List<GeoPoint> points = new ArrayList<GeoPoint>();
-	
+	Friend notificationFriend;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +34,41 @@ public class GoogleMapActivity extends MapActivity {
 
 		map = (MapView) findViewById(R.id.mapView);
 		map.setBuiltInZoomControls(true);
-		
 
-		getOverlayfromFriend();
+		if (this.getIntent().getExtras() != null) {
+			notificationFriend = (Friend) getIntent().getExtras().get(onePoint);
+
+			getOverlayfromGeolocation(notificationFriend);
+		} else {
+			getOverlayfromFriend();
+		}
+	}
+
+	private void getOverlayfromGeolocation(Friend friend) {
+		index = -1;
+		List<Overlay> mapOverlays = map.getOverlays();
+		Drawable drawable = this.getResources().getDrawable(
+				R.drawable.ic_launcher);
+
+		MyMarker itemizedoverlay = new MyMarker(drawable, this);
+
+		GeoPoint point = new GeoPoint(
+				(int) (friend.getGeoloc().getLat() * 1000000), (int) (friend
+						.getGeoloc().getLon() * 1000000));
+
+		points.add(point);
+
+		if (index < 0) {
+			index = 0;
+			map.getController().setCenter(point);
+			map.getController().setZoom(17);
+		}
+
+		OverlayItem overlayitem = new OverlayItem(point, friend.getPseudo(),
+				friend.getNumber());
+
+		itemizedoverlay.addOverlay(overlayitem);
+		mapOverlays.add(itemizedoverlay);
 
 	}
 
@@ -43,8 +77,9 @@ public class GoogleMapActivity extends MapActivity {
 		List<Overlay> mapOverlays = map.getOverlays();
 		for (Friend friend : OwerUser.getUser().getFriends()) {
 			if (friend.isVisibleInMap()) {
-						
-				Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
+
+				Drawable drawable = this.getResources().getDrawable(
+						R.drawable.ic_launcher);
 
 				MyMarker itemizedoverlay = new MyMarker(drawable, this);
 
@@ -53,13 +88,13 @@ public class GoogleMapActivity extends MapActivity {
 						.getLon() * 1000000));
 
 				points.add(point);
-				
-				if(index <0){
+
+				if (index < 0) {
 					index = 0;
 					map.getController().setCenter(point);
-					map.getController().setZoom(17);		
+					map.getController().setZoom(17);
 				}
-				
+
 				OverlayItem overlayitem = new OverlayItem(point,
 						friend.getPseudo(), friend.getNumber());
 
@@ -69,25 +104,24 @@ public class GoogleMapActivity extends MapActivity {
 			}
 		}
 
-		
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.map_menu_nextuser:
-			if(index>-1){
-				index  = (index+1)%map.getOverlays().size();
+			if (index > -1) {
+				index = (index + 1) % map.getOverlays().size();
 				map.getController().setCenter(points.get(index));
 			}
 			break;
 
 		case R.id.map_menu_beforeuser:
-			if(index>-1){
-				if(index == 0){
+			if (index > -1) {
+				if (index == 0) {
 					index = map.getOverlays().size();
 				}
-				index  = (index-1)%map.getOverlays().size();
+				index = (index - 1) % map.getOverlays().size();
 				map.getController().setCenter(points.get(index));
 			}
 			break;

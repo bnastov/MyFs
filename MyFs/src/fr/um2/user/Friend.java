@@ -1,6 +1,12 @@
 package fr.um2.user;
 
-public class Friend extends AbstractUser {
+import java.io.Serializable;
+
+public class Friend extends AbstractUser implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	boolean tracable= false;
 	boolean visibleInMap = false;
 	

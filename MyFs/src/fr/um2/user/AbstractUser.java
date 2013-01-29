@@ -3,7 +3,7 @@ package fr.um2.user;
 import fr.um2.apicaller.Position;
 
 public abstract class AbstractUser {
-	protected static String urlserver = "http://192.168.17.10:80/MyFriendWebService/MyFriend/api.php";
+	protected static String urlserver = "http://findmyfriendwebservice.comlu.com/MyFriend/api.php";
 
 	String firstName = "";
 	String lastName = "";
