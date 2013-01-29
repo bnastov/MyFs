@@ -4,6 +4,7 @@ public class GeoLocation {
 
 	String token;
 	String publictoken;
+	String pseudo;
 
 	double lat;
 
@@ -16,12 +17,13 @@ public class GeoLocation {
 
 	}
 
-	public GeoLocation(String t, String pt, double lt, double lg, String ti) {
+	public GeoLocation(String t, String pt,String ps, double lt, double lg, String ti) {
 		token = t;
 		publictoken = pt;
 		lat = lt;
 		lon = lg;
 		time = ti;
+		pseudo = ps;
 
 	}
 
@@ -29,6 +31,13 @@ public class GeoLocation {
 	public String toString() {
 		return token + "\n" + publictoken + "\n" + lat + "\n" + lon + "n"
 				+ time;
+	}
+	
+	public String getPseudo() {
+		return pseudo;
+	}
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
 	}
 
 	public String getToken() {

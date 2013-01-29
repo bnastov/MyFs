@@ -5,7 +5,7 @@
 
    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gridView1"
-    android:numColumns="3"
+    android:numColumns="4"
     android:gravity="center"
     android:columnWidth="50dp"
     android:stretchMode="columnWidth"

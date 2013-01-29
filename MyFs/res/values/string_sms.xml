@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sms_hint_city">Enter City Here</string>
+    <string name="sms_hint_message">Enter Your Message Here</string>
+    
+    <string name="sms_button_name">Send</string>
+    
+    <string name="sms_min_age_text">Min Age</string>
+    <string name="sms_max_age_text">Max Age</string>
+    
+    <string name="sms_city_error">Please enter a city name</string>
+</resources>

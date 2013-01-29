@@ -14,7 +14,7 @@ import fr.um2.apicaller.ResponseApi;
 
 public class OwerUser extends AbstractUser {
 	String token = "";
-
+	String visible = "";
 	ArrayList<Friend> friends = new ArrayList<Friend>();
 
 	private OwerUser() {
@@ -93,7 +93,7 @@ public class OwerUser extends AbstractUser {
 				instance = new OwerUser();
 				Parser.parse(instance, res, "pseudo", "firstName", "lastName",
 						"token", "publictoken", "age", "city", "imagelink",
-						"number");
+						"number","visible");
 
 				response.setResults(instance);
 			} else {
@@ -150,12 +150,12 @@ public class OwerUser extends AbstractUser {
 					Parser.parse(friend, frds.getJSONObject(i), "pseudo",
 							"firstName", "lastName", "publictoken", "city",
 							"age", "imagelink", "number");
-					
+
 					Position p = new Position();
 					Parser.parse(p, frds.getJSONObject(i));
-					
+
 					friend.setGeoloc(p);
-					
+
 					friends.add(friend);
 				}
 			}
@@ -210,8 +210,7 @@ public class OwerUser extends AbstractUser {
 				+ "?action=updateuser&firstname=" + firstname + "&lastname="
 				+ lastname + "&imagelink=" + imagelink + "&age=" + age
 				+ "&city=" + city + "&number=" + number + "&token=" + token);
-		
-		
+
 		ResponseApi<Void> rep = new ResponseApi<Void>();
 		Parser.parse(rep, res, "what", "type", "info", "details");
 		if (rep.isOK()) {
@@ -297,6 +296,17 @@ public class OwerUser extends AbstractUser {
 
 	public String getToken() {
 		return token;
+	}
+
+	public boolean isVisible(){
+		return visible.equals("1");
+	}
+	public String getVisible() {
+		return visible;
+	}
+
+	public void setVisible(String visible) {
+		this.visible = visible;
 	}
 
 	@Override

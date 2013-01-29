@@ -16,6 +16,10 @@ public abstract class AbstractUser {
 	Position geoloc;
 	
 	
+	public int getAgeAsInteger(){
+		return Integer.getInteger(age, 0);
+	}
+	
 	
 	
 

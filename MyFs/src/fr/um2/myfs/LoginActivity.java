@@ -362,6 +362,7 @@ public class LoginActivity extends Activity {
 	 */
 	public void openConnectedActivity() {
 		Intent intent = new Intent(this, ConnectedActivity.class);
-		startActivity(intent);		
+		startActivity(intent);	
+		this.finish();
 	}
 }

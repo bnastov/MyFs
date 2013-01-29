@@ -67,7 +67,7 @@ public class ResultActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_search_result, menu);
+		getMenuInflater().inflate(R.menu.menu_back_to_profile, menu);
 		return true;
 	}
 	

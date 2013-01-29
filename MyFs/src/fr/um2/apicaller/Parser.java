@@ -36,7 +36,7 @@ public class Parser {
 				if (obj.has(f)) {
 					Field f1;
 					
-					if (render instanceof AbstractUser && !f.equals("token")) {
+					if (render instanceof AbstractUser && !f.equals("token") && !f.equals("visible")) {
 						f1 = render.getClass().getSuperclass()
 								.getDeclaredField(f);
 					} else {

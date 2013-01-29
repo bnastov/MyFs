@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -15,7 +14,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
-import fr.um2.imageloader.ImageLoader;
 import fr.um2.user.Friend;
 import fr.um2.user.OwerUser;
 import fr.um2.utils.MyMarker;
@@ -34,22 +32,19 @@ public class GoogleMapActivity extends MapActivity {
 
 		map = (MapView) findViewById(R.id.mapView);
 		map.setBuiltInZoomControls(true);
+		
 
 		getOverlayfromFriend();
 
 	}
 
 	private void getOverlayfromFriend() {
+		index = -1;
 		List<Overlay> mapOverlays = map.getOverlays();
 		for (Friend friend : OwerUser.getUser().getFriends()) {
 			if (friend.isVisibleInMap()) {
-				ImageView v = new ImageView(this);
-				int loader = R.drawable.ic_launcher;
-				ImageLoader imgLoader = new ImageLoader(this);
-				imgLoader.DisplayImage(OwerUser.getUser().getImagelink(),
-						loader, v);//*/
-
-				Drawable drawable = v.getDrawable();
+						
+				Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
 
 				MyMarker itemizedoverlay = new MyMarker(drawable, this);
 
@@ -62,7 +57,7 @@ public class GoogleMapActivity extends MapActivity {
 				if(index <0){
 					index = 0;
 					map.getController().setCenter(point);
-					map.getController().setZoom(12);		
+					map.getController().setZoom(17);		
 				}
 				
 				OverlayItem overlayitem = new OverlayItem(point,
@@ -97,6 +92,10 @@ public class GoogleMapActivity extends MapActivity {
 			}
 			break;
 
+		case R.id.map_menu_refresh:
+			OwerUser.getUser().getFriendsWeb();
+			getOverlayfromFriend();
+			break;
 		case R.id.map_menu_quit:
 			this.finish();
 			break;

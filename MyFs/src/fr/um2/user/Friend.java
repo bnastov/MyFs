@@ -2,7 +2,7 @@ package fr.um2.user;
 
 public class Friend extends AbstractUser {
 	boolean tracable= false;
-	boolean visibleInMap = true;
+	boolean visibleInMap = false;
 	
 	
 	public void setTracable(boolean tracable) {

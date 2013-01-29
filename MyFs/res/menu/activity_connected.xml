@@ -17,13 +17,13 @@
         
         <menu>
             <item 
-                android:id="@+id/sub_menu_option_by_city"
+                android:id="@+id/sub_menu_option_send_sms_by_city"
                 android:title="By City"/>
             <item 
-                android:id="@+id/sub_menu_option_by_age"
+                android:id="@+id/sub_menu_option_send_sms_by_age"
                 android:title="By Age"/>
             <item 
-                android:id="@+id/sub_menu_option_by_costom"
+                android:id="@+id/sub_menu_option_send_sms_by_costom"
                 android:title="Costom"/>
             
         </menu>

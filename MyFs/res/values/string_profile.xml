@@ -9,4 +9,5 @@
     <string name="profile_city_default">Update Your City</string>
     <string name="profile_age">Age</string>
     <string name="profile_age_default">Update Your Age</string>
+    <string name="profile_visibility">My Visibility</string>
 </resources>

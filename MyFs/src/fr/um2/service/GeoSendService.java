@@ -1,21 +1,29 @@
 package fr.um2.service;
 
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import fr.um2.apicaller.Position;
 import fr.um2.apicaller.ResponseApi;
 import fr.um2.database.GeoLocationDBAdapteur;
 import fr.um2.entities.GeoLocation;
+import fr.um2.myfs.ConnectedActivity;
+import fr.um2.myfs.R;
+import fr.um2.search.ResultActivity;
 import fr.um2.user.Friend;
 import fr.um2.user.OwerUser;
 
@@ -37,6 +45,8 @@ public class GeoSendService extends Service {
 
 	@Override
 	public void onStart(Intent intent, int startid) {
+		
+		
 
 		Log.i(TAG, "Service Start");
 		LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -84,32 +94,70 @@ public class GeoSendService extends Service {
 		mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
 				mlocListener);
 
-		mHandler.postDelayed(traceTask, TWO_MINUTE);
-
-	}
-
-	private Handler mHandler = new Handler();
-	private static final int TWO_MINUTE = 120000;
-
-	private Runnable traceTask = new Runnable() {
-
-		public void run() {
-			for (Friend friend : OwerUser.getUser().getFriends()) {
-				if(friend.isTracable()){
-					ResponseApi<Position> repo = OwerUser.getUser().getGeoLocalizationOfFriend(friend.getPublictoken());
-					if(repo.isOK()){
-						GeoLocation f = new GeoLocation(OwerUser.getUser().getToken(),friend.getPublictoken(), repo
-								.getResults().getLat(), repo.getResults().getLon(),
-								repo.getResults().getTime());
-						GeoLocationDBAdapteur base = new GeoLocationDBAdapteur(getApplicationContext());
-						base.open();
-						base.insertGeoLocation(f);
-						base.close();
+		
+		timer.scheduleAtFixedRate(new TimerTask() {
+			
+			@Override
+			public void run() {
+				for (Friend friend : OwerUser.getUser().getFriends()) {
+					if (friend.isTracable()) {
+						ResponseApi<Position> repo = OwerUser
+								.getUser()
+								.getGeoLocalizationOfFriend(friend.getPublictoken());
+						if (repo.isOK()) {
+							GeoLocation f = new GeoLocation(OwerUser.getUser()
+									.getToken(), friend.getPublictoken(),
+									friend.getPseudo(), repo.getResults().getLat(),
+									repo.getResults().getLon(), repo.getResults()
+											.getTime());
+							GeoLocationDBAdapteur base = new GeoLocationDBAdapteur(
+									getApplicationContext());
+							base.open();
+							base.insertGeoLocation(f);
+							base.close();
+							
+							showNotification();
+						}
 					}
 				}
+	
 			}
-			
-			mHandler.postDelayed(traceTask, TWO_MINUTE);
-		}
-	};
+		}, TWO_MINUTE, TWO_MINUTE);
+	}
+	
+	Timer timer = new Timer();
+
+	private static final int TWO_MINUTE = 1000;//120 000
+
+	
+	public void showNotification(){
+		Log.i(TAG, "notification");
+		NotificationCompat.Builder mBuilder =
+		        new NotificationCompat.Builder(this)
+		        .setSmallIcon(R.drawable.ic_launcher)
+		        .setContentTitle("My notification")
+		        .setContentText("Hello World!");
+		// Creates an explicit intent for an Activity in your app
+		Intent resultIntent = new Intent(this, ConnectedActivity.class);
+
+		// The stack builder object will contain an artificial back stack for the
+		// started Activity.
+		// This ensures that navigating backward from the Activity leads out of
+		// your application to the Home screen.
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		// Adds the back stack for the Intent (but not the Intent itself)
+		stackBuilder.addParentStack(ConnectedActivity.class);
+		// Adds the Intent that starts the Activity to the top of the stack
+		stackBuilder.addNextIntent(resultIntent);
+		PendingIntent resultPendingIntent =
+		        stackBuilder.getPendingIntent(
+		            0,
+		            PendingIntent.FLAG_UPDATE_CURRENT
+		        );
+		mBuilder.setContentIntent(resultPendingIntent);
+		NotificationManager mNotificationManager =
+		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		// mId allows you to update the notification later on.
+		mNotificationManager.notify(0, mBuilder.build());
+	}
 }

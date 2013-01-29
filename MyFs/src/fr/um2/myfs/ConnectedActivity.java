@@ -24,14 +24,14 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.activeandroid.ActiveAndroid;
-
 import fr.um2.apicaller.Position;
 import fr.um2.apicaller.ResponseApi;
 import fr.um2.imageloader.ImageLoader;
@@ -39,7 +39,7 @@ import fr.um2.search.SearchActivity;
 import fr.um2.service.GeoSendService;
 import fr.um2.user.Friend;
 import fr.um2.user.OwerUser;
-import fr.um2.utils.OwerUserAdapter;
+import fr.um2.utils.FriendAdapter;
 
 public class ConnectedActivity extends FragmentActivity implements
 		OnLongClickListener {
@@ -55,13 +55,13 @@ public class ConnectedActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StartGeoSender();
+		setContentView(R.layout.activity_connected);
 
-		// OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
-		OwerUser.loginUser("bibouh123", "rabah123");
+		OwerUser.loginUser("blaze_nastov@hotmail.com", "nastov123");
+
 		listFriends = OwerUser.getUser().getFriendsWeb();
 
 		initilizeFriendList();
-		setContentView(R.layout.activity_connected);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -81,11 +81,12 @@ public class ConnectedActivity extends FragmentActivity implements
 	}
 
 	private void initilizeFriendList() {
-		DummySectionFragment.listfriends = new ListView(this);
-		DummySectionFragment.listfriends.setOnLongClickListener(this);
-		DummySectionFragment.listfriends.setOnCreateContextMenuListener(this);
+		DummySectionFragment.listfriendsView = new ListView(this);
+		DummySectionFragment.listfriendsView.setOnLongClickListener(this);
+		DummySectionFragment.listfriendsView
+				.setOnCreateContextMenuListener(this);
 
-		DummySectionFragment.listfriends
+		DummySectionFragment.listfriendsView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View item,
@@ -131,44 +132,66 @@ public class ConnectedActivity extends FragmentActivity implements
 			Log.i("My", "Refresh Freinds menu Clicked");
 			listSortedFriends = null;
 			DummySectionFragment.initilizeFriends(
-					DummySectionFragment.listfriends, this, listFriends);
+					DummySectionFragment.listfriendsView, this, listFriends);
 			break;
 		case R.id.sub_sub_menu_option_sort_by_first_name:
 			Log.i("My", "Sort by First Name menu Clicked");
 			DummySectionFragment.initilizeFriends(
-					DummySectionFragment.listfriends, this, sortByFirstName());
+					DummySectionFragment.listfriendsView, this,
+					sortByFirstName());
 			break;
 		case R.id.sub_sub_menu_option_sort_by_last_name:
 			Log.i("My", "Sort by Last Name menu Clicked");
 			DummySectionFragment.initilizeFriends(
-					DummySectionFragment.listfriends, this, sortByLastName());
+					DummySectionFragment.listfriendsView, this,
+					sortByLastName());
 			break;
 		case R.id.sub_sub_menu_option_sort_by_age_increasing:
 			Log.i("My", "Sort by Age Increasing menu Clicked");
 			DummySectionFragment.initilizeFriends(
-					DummySectionFragment.listfriends, this,
+					DummySectionFragment.listfriendsView, this,
 					sortByAgeIncreasing());
 			break;
 		case R.id.sub_sub_menu_option_sort_by_age_decreasing:
 			Log.i("My", "Sort by Age Decreasing menu Clicked");
 			DummySectionFragment.initilizeFriends(
-					DummySectionFragment.listfriends, this,
+					DummySectionFragment.listfriendsView, this,
 					sortByAgeDecreasing());
 			break;
-		case R.id.sub_menu_option_by_city:
+		case R.id.sub_menu_option_sort_by_city:
 			Log.i("My", "Sort by City menu Clicked");
 			DummySectionFragment.initilizeFriends(
-					DummySectionFragment.listfriends, this, sortByCity());
+					DummySectionFragment.listfriendsView, this, sortByCity());
 			break;
 		case R.id.sub_menu_option_sort_by_distance:
 			Log.i("My", "Sort by Distance menu Clicked");
 			DummySectionFragment.initilizeFriends(
-					DummySectionFragment.listfriends, this, sortByDistance());
+					DummySectionFragment.listfriendsView, this,
+					sortByDistance());
+			break;
+		case R.id.sub_menu_option_send_sms_by_city:
+			Log.i("My", "Send Sms By City");
+			startSmsActivity("city");
+			break;
+		case R.id.sub_menu_option_send_sms_by_age:
+			Log.i("My", "Send Sms By age");
+			startSmsActivity("age");
+			break;
+		case R.id.sub_menu_option_send_sms_by_costom:
+			Log.i("My", "Send Costom Sms");
+			startSmsActivity("costom");
 			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void startSmsActivity(String extra) {
+		Intent intent = new Intent(this, SendSmsActivity.class);
+		intent.putExtra("sort-by", extra);
+		Log.i("My", "startSmsActyvity with extra : " + extra);
+		this.startActivity(intent);
 	}
 
 	/**
@@ -178,13 +201,11 @@ public class ConnectedActivity extends FragmentActivity implements
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		public Fragment profile;
 		public Fragment listFriends;
-		public Fragment database;
-
+		
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 			profile = getItem(0);
 			listFriends = getItem(1);
-			database = getItem(2);
 		}
 
 		@Override
@@ -202,7 +223,7 @@ public class ConnectedActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return 3;
+			return 2;
 		}
 
 		@Override
@@ -212,8 +233,6 @@ public class ConnectedActivity extends FragmentActivity implements
 				return getString(R.string.title_section1);
 			case 1:
 				return getString(R.string.title_section2);
-			case 2:
-				return getString(R.string.title_section3);
 			}
 			return null;
 		}
@@ -223,7 +242,8 @@ public class ConnectedActivity extends FragmentActivity implements
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public static class DummySectionFragment extends Fragment {
+	public static class DummySectionFragment extends Fragment implements
+			OnCheckedChangeListener {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
@@ -236,7 +256,8 @@ public class ConnectedActivity extends FragmentActivity implements
 		TextView city;
 		TextView age;
 		ImageView imageView;
-		public static ListView listfriends;
+		Switch switcher;
+		public static ListView listfriendsView;
 
 		public DummySectionFragment() {
 		}
@@ -260,9 +281,9 @@ public class ConnectedActivity extends FragmentActivity implements
 				break;
 
 			case 1:
-				initilizeFriends(listfriends, getActivity(),
+				initilizeFriends(listfriendsView, getActivity(),
 						ConnectedActivity.listFriends);
-				ret = listfriends;
+				ret = listfriendsView;
 
 				break;
 
@@ -286,16 +307,22 @@ public class ConnectedActivity extends FragmentActivity implements
 			GridView gridView;
 
 			ArrayList<String> values = new ArrayList<String>();
-			values.add("a");
-			values.add("b");
-			values.add("c");
-			values.add("d"); 
-			values.add("e");
-			values.add("f");
+			values.add("Pseudo");
+			values.add("Latitude");
+			values.add("Longitutde");
+			values.add("time");
+
+			// GeoLocationDBAdapteur base = new
+			// GeoLocationDBAdapteur(getActivity());
+			values.add("rabah");
+			values.add("33");
+			values.add("127");
+			values.add("8 53");
+
 			gridView = (GridView) v3.findViewById(R.id.gridView1);
 
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-					android.R.layout.simple_list_item_1, values);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+					getActivity(), android.R.layout.simple_list_item_1, values);
 
 			gridView.setAdapter(adapter);
 
@@ -304,8 +331,15 @@ public class ConnectedActivity extends FragmentActivity implements
 		public static void initilizeFriends(ListView v2, Activity a,
 				ArrayList<Friend> listFriends2) {
 
-			OwerUserAdapter ad = new OwerUserAdapter(a,
-					R.layout.oweruser_adapter, R.id.ad_pseudo, listFriends2);
+			/*
+			 * OwerUserAdapter ad = new OwerUserAdapter(a,
+			 * R.layout.oweruser_adapter, R.id.ad_pseudo, listFriends2);
+			 * ListView listView = v2; listView.setTextFilterEnabled(true);//
+			 */
+
+			FriendAdapter ad = new FriendAdapter(a, R.layout.friends_adapter,
+					R.id.ad_friend_pseudo, listFriends2);
+
 			ListView listView = v2;
 			listView.setTextFilterEnabled(true);
 
@@ -320,6 +354,9 @@ public class ConnectedActivity extends FragmentActivity implements
 			city = (TextView) v.findViewById(R.id.city);
 			age = (TextView) v.findViewById(R.id.age);
 			imageView = (ImageView) v.findViewById(R.id.imageView1);
+			switcher = (Switch) v.findViewById(R.id.profile_switch_visible);
+			switcher.setChecked(OwerUser.getUser().isVisible());
+			switcher.setOnCheckedChangeListener(this);
 
 			if (firstName == null) {
 				Log.i("My", "firstname est null");
@@ -338,6 +375,19 @@ public class ConnectedActivity extends FragmentActivity implements
 					imageView);
 		}
 
+		@Override
+		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+
+			ResponseApi<Void> response = OwerUser.getUser().updateVisible(arg1);
+			if (response.isOK()) {
+				Toast.makeText(getActivity(), "Visibility changed to " + arg1,
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getActivity(), response.toString(),
+						Toast.LENGTH_LONG).show();
+
+			}
+		}
 	}
 
 	/**
@@ -353,11 +403,12 @@ public class ConnectedActivity extends FragmentActivity implements
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		menu.setHeaderTitle(R.string.menu_context_name);
-		menu.setHeaderIcon(R.drawable.rabah);
+		menu.setHeaderIcon(android.R.drawable.ic_delete);
 		menu.add(0, 1, 0, R.string.menu_context_delete_friend);
 		menu.add(0, 2, 0, R.string.menu_context_info_friend);
 		menu.add(0, 3, 0, R.string.menu_context_call_friend);
 		menu.add(0, 4, 0, R.string.menu_context_send_sms);
+		menu.add(0, 5, 0, "Test Notification");
 
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
@@ -395,11 +446,11 @@ public class ConnectedActivity extends FragmentActivity implements
 				if (ConnectedActivity.listSortedFriends != null) {
 					ConnectedActivity.listSortedFriends.remove(selected);
 					DummySectionFragment.initilizeFriends(
-							DummySectionFragment.listfriends, this,
+							DummySectionFragment.listfriendsView, this,
 							ConnectedActivity.listSortedFriends);
 				} else
 					DummySectionFragment.initilizeFriends(
-							DummySectionFragment.listfriends, this,
+							DummySectionFragment.listfriendsView, this,
 							ConnectedActivity.listFriends);
 			} else {
 				Toast.makeText(getApplicationContext(),
@@ -413,44 +464,32 @@ public class ConnectedActivity extends FragmentActivity implements
 		 * info Case
 		 */
 		case 2:
-			// Ajouter dans la dbb
-			/*ResponseApi<Position> repo = OwerUser.getUser()
-					.getGeoLocalizationOfFriend(selected.getPublictoken());
-			if (repo.isOK()) {//*/
-
-				Toast.makeText(
-						getApplicationContext(),
-						"Info Friend \n Pseudo :" + selected.getPseudo()
-								+ " \n First Name : " + selected.getFirstName()
-								+ " \n Last Name :" + selected.getLastName()
-								+ "\n postion at \n"+selected.getGeoloc().toString(),
-						Toast.LENGTH_LONG).show();
-
-			/*} else {
-				Log.e("My", "ERREUR Dans la requete de recuperation");
-			}//*/
+			Toast.makeText(
+					getApplicationContext(),
+					"Info Friend \n Pseudo :" + selected.getPseudo()
+							+ " \n First Name : " + selected.getFirstName()
+							+ " \n Last Name :" + selected.getLastName()
+							+ "\n postion at \n"
+							+ selected.getGeoloc().toString(),
+					Toast.LENGTH_LONG).show();
 
 			break;
 		case 3:
 			// Simulation d'appel
-			Uri uri = Uri.parse("tel:0612345678");
+			Uri uri = Uri.parse(selected.getNumber());
 			Intent intent = new Intent(Intent.ACTION_DIAL, uri);
 			startActivity(intent);
-
+			break;
 		case 4:
-			// Simulation d'envoie de sms
-			// cas 1 :
-			/*
-			 * SmsManager smsManager = SmsManager.getDefault();
-			 * smsManager.sendTextMessage("0612345678", null, "sms message",
-			 * null, null);
-			 */
-			// cas 2 :
-			Uri sms_uri = Uri.parse("smsto:+33612345678");
+			Uri sms_uri = Uri.parse(selected.getNumber());
 			Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
 			sms_intent.putExtra("sms_body", "Good Morning ! how r U ?");
 			startActivity(sms_intent);
+			break;
+		case 5:
 
+			
+			break;
 		default:
 			break;
 		}
@@ -460,7 +499,6 @@ public class ConnectedActivity extends FragmentActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		ActiveAndroid.dispose();
 	}
 
 	/**

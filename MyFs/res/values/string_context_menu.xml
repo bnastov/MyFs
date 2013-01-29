@@ -6,4 +6,6 @@
     <string name="menu_context_info_friend">Info Friend</string>
     <string name="menu_context_call_friend">Call Friend</string>
     <string name="menu_context_send_sms">Send SMS</string>
+    <string name="menu_context_tracable_on">Stop Tracing</string>
+    <string name="menu_context_tracable_off">Start Tracing</string>
 </resources>
